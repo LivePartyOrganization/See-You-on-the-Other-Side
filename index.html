@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #passwordPage, #timerPage {
+            text-align: center;
+            width: 100%;
+        }
+
+        #timerPage {
+            display: none;
+        }
+
+        input {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 10px;
+            margin: 20px;
+            font-size: 18px;
+            width: 200px;
+        }
+
+        #timer {
+            font-size: 72px;
+            margin: 40px 0;
+        }
+
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            font-size: 24px;
+        }
+
+        #mainTitle {
+            font-size: 32px;
+            font-weight: bold;
+            position: fixed;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div id="passwordPage">
+        <div class="header">ENTER YOUR PASSWORD</div>
+        <input type="password" id="passwordInput" onkeyup="checkPassword(event)">
+    </div>
+
+    <div id="timerPage">
+        <div id="mainTitle">OPEN YOUR EYES TO A WHOLE NEW UNIVERSE</div>
+        <div id="timer"></div>
+        <div class="footer">PRIVATE PARTY</div>
+    </div>
+
+    <script>
+        function checkPassword(event) {
+            if (event.key === 'Enter') {
+                if (document.getElementById('passwordInput').value.toLowerCase() === 'openyoureyes') {
+                    document.getElementById('passwordPage').style.display = 'none';
+                    document.getElementById('timerPage').style.display = 'block';
+                    startTimer();
+                } else {
+                    document.getElementById('passwordInput').value = '';
+                }
+            }
+        }
+
+        function startTimer() {
+            const endDate = new Date('2024-12-31T23:59:59');
+            
+            function updateTimer() {
+                const now = new Date();
+                const diff = endDate - now;
+                
+                if (diff <= 0) {
+                    document.getElementById('timer').innerHTML = '00:00:00';
+                    return;
+                }
+                
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('timer').innerHTML = 
+                    String(hours).padStart(2, '0') + ':' +
+                    String(minutes).padStart(2, '0') + ':' +
+                    String(seconds).padStart(2, '0');
+            }
+            
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+    </script>
+</body>
+</html>

@@ -2,12 +2,14 @@
 <html>
 <head>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+        
         body {
             background-color: #1a1a1a;
             color: #e0e0e0;
-            font-family: Arial, sans-serif;
+            font-family: 'Special Elite', monospace;
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -21,6 +23,10 @@
 
         #timerPage {
             display: none;
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
 
         input {
@@ -30,11 +36,16 @@
             margin: 20px;
             font-size: 18px;
             width: 200px;
+            font-family: 'Special Elite', monospace;
         }
 
         #timer {
             font-size: 72px;
-            margin: 40px 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff0000; /* Dodan rdeč timer */
         }
 
         .header {
@@ -43,21 +54,30 @@
             margin-bottom: 20px;
         }
 
-        .footer {
-            position: fixed;
-            bottom: 20px;
+        .party-text {
             font-size: 24px;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         #mainTitle {
             font-size: 32px;
             font-weight: bold;
-            position: fixed;
-            top: 20px;
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 100%;
             text-align: center;
-            padding: 0 20px;
-            box-sizing: border-box;
+        }
+
+        #errorMessage {
+            color: #ff0000;
+            font-size: 16px;
+            margin-top: 10px;
+            visibility: hidden;
         }
     </style>
 </head>
@@ -65,12 +85,13 @@
     <div id="passwordPage">
         <div class="header">ENTER YOUR PASSWORD</div>
         <input type="password" id="passwordInput" onkeyup="checkPassword(event)">
+        <div id="errorMessage">incorrect password try again</div>
     </div>
 
     <div id="timerPage">
         <div id="mainTitle">OPEN YOUR EYES TO A WHOLE NEW UNIVERSE</div>
         <div id="timer"></div>
-        <div class="footer">PRIVATE PARTY</div>
+        <div class="party-text">PRIVATE PARTY</div>
     </div>
 
     <script>
@@ -82,6 +103,10 @@
                     startTimer();
                 } else {
                     document.getElementById('passwordInput').value = '';
+                    document.getElementById('errorMessage').style.visibility = 'visible';
+                    setTimeout(() => {
+                        document.getElementById('errorMessage').style.visibility = 'hidden';
+                    }, 3000);
                 }
             }
         }
@@ -94,15 +119,17 @@
                 const diff = endDate - now;
                 
                 if (diff <= 0) {
-                    document.getElementById('timer').innerHTML = '00:00:00';
+                    document.getElementById('timer').innerHTML = '00:00:00:00';
                     return;
                 }
                 
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((diff % (1000 * 60)) / 1000);
                 
                 document.getElementById('timer').innerHTML = 
+                    String(days).padStart(2, '0') + ':' +
                     String(hours).padStart(2, '0') + ':' +
                     String(minutes).padStart(2, '0') + ':' +
                     String(seconds).padStart(2, '0');

@@ -72,21 +72,47 @@
             font-size: 18px;
             color: #1a1a1a;
             text-align: center;
+            padding-left: 20px;
         }
 
         #validation-message {
+            display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: #00FF00;
-            font-size: 20px;
-            text-align: center;
-            display: none;
-            z-index: 2000;
             background-color: rgba(0,0,0,0.9);
-            padding: 20px;
+            color: #00FF00;
+            padding: 40px;
             border-radius: 10px;
+            z-index: 2000;
+            text-align: center;
+            min-width: 300px;
+            font-size: 20px;
+        }
+
+        .close-validation {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #00FF00;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            font-family: 'Ubuntu', sans-serif;
+            line-height: 1;
+        }
+
+        .close-validation:hover {
+            color: #FF7F50;
+        }
+
+        #validation-text {
+            padding-left: 20px;
         }
 
         .nav-buttons {
@@ -256,7 +282,10 @@
         <div id="error-message">error: incorrect password (make sure you clicked on your name, not someone else's!)</div>
     </div>
 
-    <div id="validation-message"></div>
+    <div id="validation-message">
+        <button class="close-validation" onclick="closeValidationMessage()">×</button>
+        <span id="validation-text"></span>
+    </div>
 
     <div id="mainContent">
         <div class="nav-buttons">
@@ -304,6 +333,10 @@
             document.getElementById('modal').style.display = 'none';
             document.getElementById('personal-password').value = '';
             document.getElementById('error-message').style.display = 'none';
+        }
+
+        function closeValidationMessage() {
+            document.getElementById('validation-message').style.display = 'none';
         }
 
         function checkPassword(event) {
@@ -355,10 +388,14 @@
 
         function showSuccessMessage() {
             const message = document.getElementById('validation-message');
-            message.textContent = "You have successfully entered your personal password. Congratulations! See you soon.";
+            document.getElementById('validation-text').textContent = 
+                "You have successfully entered your personal password. Congratulations! See you soon.";
             message.style.display = 'block';
+            
             setTimeout(() => {
-                message.style.display = 'none';
+                if (message.style.display === 'block') {
+                    message.style.display = 'none';
+                }
             }, 10000);
         }
 

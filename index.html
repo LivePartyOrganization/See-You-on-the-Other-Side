@@ -2,7 +2,7 @@
 <html>
 <head>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Anton&family=Playfair+Display&family=Ubuntu:wght@400;700&family=Delius&display=swap');
         
         body {
             background-color: #1a1a1a;
@@ -13,20 +13,210 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            overflow-x: hidden;
         }
 
-        #passwordPage, #timerPage {
-            text-align: center;
+        #passwordPage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
             width: 100%;
         }
 
-        #timerPage {
+        #mainContent {
             display: none;
+            width: 100%;
             min-height: 100vh;
+        }
+
+        #modal {
+            display: none;
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #85929e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            z-index: 1000;
+            text-align: center;
+            min-width: 300px;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #1a1a1a;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            font-family: 'Ubuntu', sans-serif;
+            line-height: 1;
+        }
+
+        .close-button:hover {
+            color: #880808;
+        }
+
+        .modal-title {
+            width: 100%;
+            margin: 10px 0 20px 0;
+            font-size: 18px;
+            color: #1a1a1a;
+            text-align: center;
+        }
+
+        #validation-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00FF00;
+            font-size: 20px;
+            text-align: center;
+            display: none;
+            z-index: 2000;
+            background-color: rgba(0,0,0,0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            top: 20px;
+            display: flex;
+            gap: 30px;
+            z-index: 1000;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .button {
+            background-color: transparent;
+            border: none;
+            color: #e0e0e0;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            color: #880808;
+        }
+
+        .warning-text {
+            margin-top: 150px;
+            font-family: 'Special Elite', monospace;
+            text-align: center;
+            color: #e0e0e0;
+            font-size: 20px;
+            max-width: 800px;
+            line-height: 1.5;
+            padding: 0 20px;
+        }
+
+        .secondary-text {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-family: 'Special Elite', monospace;
+            text-align: center;
+            color: #e0e0e0;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 0 20px;
+        }
+
+        #homePage, #whitelistPage {
+            width: 100%;
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #mainTitle {
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 25vh;
+            width: 100%;
+            text-align: center;
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 1px;
+            padding: 0 20px;
+        }
+
+        #timer {
+            font-size: 72px;
+            margin-top: 20vh;
+            color: #880808;
+        }
+
+        .party-text {
+            font-size: 24px;
+            margin-top: auto;
+            margin-bottom: 40px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .name {
+            color: #f1c40f;
+            font-family: 'Special Elite', monospace;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .name:hover {
+            color: #880808;
+        }
+
+        .name-group {
+            margin: 20px 0;
+        }
+
+        #names-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .approved {
+            color: #008000 !important;
+            font-weight: bold;
+        }
+
+        .approved::after {
+            content: " (approved)";
+            color: #FF7F50;
+            font-size: 14px;
+        }
+
+        #error-message {
+            color: #880808;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
 
         input {
@@ -39,45 +229,16 @@
             font-family: 'Special Elite', monospace;
         }
 
-        #timer {
-            font-size: 72px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #ff0000; /* Dodan rdeč timer */
-        }
-
-        .header {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .party-text {
-            font-size: 24px;
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        #mainTitle {
-            font-size: 32px;
-            font-weight: bold;
-            position: absolute;
-            top: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            text-align: center;
-        }
-
         #errorMessage {
-            color: #ff0000;
+            color: #880808;
             font-size: 16px;
             margin-top: 10px;
             visibility: hidden;
+        }
+
+        #modal input {
+            width: 80%;
+            margin: 10px auto;
         }
     </style>
 </head>
@@ -88,18 +249,69 @@
         <div id="errorMessage">incorrect password try again</div>
     </div>
 
-    <div id="timerPage">
-        <div id="mainTitle">OPEN YOUR EYES TO A WHOLE NEW UNIVERSE</div>
-        <div id="timer"></div>
-        <div class="party-text">PRIVATE PARTY</div>
+    <div id="modal">
+        <button class="close-button" onclick="closeModal()">×</button>
+        <div class="modal-title">Please enter your personal password</div>
+        <input type="password" id="personal-password" onkeyup="checkPersonalPassword(event)">
+        <div id="error-message">error: incorrect password (make sure you clicked on your name, not someone else's!)</div>
+    </div>
+
+    <div id="validation-message"></div>
+
+    <div id="mainContent">
+        <div class="nav-buttons">
+            <button class="button" onclick="showPage('homePage')">HOME</button>
+            <button class="button" onclick="showPage('whitelistPage')">WHITELIST</button>
+        </div>
+
+        <div id="homePage">
+            <div id="mainTitle">OPEN YOUR EYES TO A WHOLE NEW UNIVERSE</div>
+            <div id="timer"></div>
+            <div class="party-text">PRIVATE PARTY</div>
+        </div>
+
+        <div id="whitelistPage">
+            <div class="warning-text">This party is by invitation only; only people on the whitelist are allowed to attend!</div>
+            <div class="secondary-text">Please click on your name, then enter your passcode to secure your place in 2025</div>
+            <div id="names-container"></div>
+        </div>
     </div>
 
     <script>
+        const nameGroups = [
+            ['Tilen', 'Zala'],
+            ['Leo', 'Mariol'],
+            ['Gašper', 'Zarja'],
+            ['Jacques', 'Alja'],
+            ['Marko']
+        ];
+
+        const passwords = {
+            'Tilen': 'paradise729',
+            'Zala': 'harmony438',
+            'Leo': 'serenity152',
+            'Mariol': 'euphoria684',
+            'Gašper': 'bliss921',
+            'Zarja': 'unity307',
+            'Jacques': 'dreamscape562',
+            'Alja': 'eden843',
+            'Marko': 'nirvana196'
+        };
+
+        let selectedName = '';
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('personal-password').value = '';
+            document.getElementById('error-message').style.display = 'none';
+        }
+
         function checkPassword(event) {
             if (event.key === 'Enter') {
                 if (document.getElementById('passwordInput').value.toLowerCase() === 'openyoureyes') {
                     document.getElementById('passwordPage').style.display = 'none';
-                    document.getElementById('timerPage').style.display = 'block';
+                    document.getElementById('mainContent').style.display = 'block';
+                    showPage('homePage');
                     startTimer();
                 } else {
                     document.getElementById('passwordInput').value = '';
@@ -109,6 +321,71 @@
                     }, 3000);
                 }
             }
+        }
+
+        function checkPersonalPassword(event) {
+            if (event.key === 'Enter') {
+                validatePersonalPassword();
+            }
+        }
+
+        function showPage(pageId) {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('whitelistPage').style.display = 'none';
+            document.getElementById(pageId).style.display = 'flex';
+        }
+
+        function showPersonalPasswordModal(name) {
+            selectedName = name;
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('personal-password').value = '';
+            document.getElementById('error-message').style.display = 'none';
+        }
+
+        function validatePersonalPassword() {
+            const password = document.getElementById('personal-password').value;
+            if (password === passwords[selectedName]) {
+                document.getElementById('modal').style.display = 'none';
+                showSuccessMessage();
+                markNameAsApproved(selectedName);
+            } else {
+                document.getElementById('error-message').style.display = 'block';
+            }
+        }
+
+        function showSuccessMessage() {
+            const message = document.getElementById('validation-message');
+            message.textContent = "You have successfully entered your personal password. Congratulations! See you soon.";
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 10000);
+        }
+
+        function markNameAsApproved(name) {
+            const nameElement = Array.from(document.getElementsByClassName('name'))
+                .find(el => el.textContent === name);
+            if (nameElement) {
+                nameElement.classList.add('approved');
+            }
+        }
+
+        function createWhitelist() {
+            const container = document.getElementById('names-container');
+            nameGroups.forEach(group => {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'name-group';
+                
+                group.forEach(name => {
+                    const nameDiv = document.createElement('div');
+                    nameDiv.className = 'name';
+                    nameDiv.textContent = name;
+                    nameDiv.onclick = () => showPersonalPasswordModal(name);
+                    groupDiv.appendChild(nameDiv);
+                });
+                
+                container.appendChild(groupDiv);
+            });
         }
 
         function startTimer() {
@@ -138,6 +415,9 @@
             updateTimer();
             setInterval(updateTimer, 1000);
         }
+
+        // Initialize
+        createWhitelist();
     </script>
 </body>
 </html>

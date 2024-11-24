@@ -46,6 +46,79 @@
             min-width: 300px;
         }
 
+        .admin-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #FF0000;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .admin-button svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .admin-button:hover {
+            transform: rotate(90deg);
+            background-color: #880808;
+        }
+
+        #adminModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            right: 20%;
+            transform: translateY(-50%);
+            background-color: #7b241c;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #FF0000;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            z-index: 1000;
+            text-align: center;
+            min-width: 300px;
+        }
+
+        .admin-title {
+            color: #f1c40f;
+            font-family: 'Special Elite', monospace;
+            font-size: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+            margin-left: 20px;
+        }
+
+        .admin-error {
+            color: #f1c40f;
+            font-family: 'Special Elite', monospace;
+            font-size: 14px;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        #adminModal input {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 10px;
+            margin: 20px auto;
+            font-size: 18px;
+            width: 80%;
+            font-family: 'Special Elite', monospace;
+            display: block;
+        }
+
         .close-button {
             position: absolute;
             top: 10px;
@@ -141,25 +214,14 @@
             color: #880808;
         }
 
-        .warning-text {
+        .warning-text, .secondary-text {
             margin-top: 150px;
             font-family: 'Special Elite', monospace;
             text-align: center;
             color: #e0e0e0;
-            font-size: 20px;
+            font-size: 16px;
             max-width: 800px;
             line-height: 1.5;
-            padding: 0 20px;
-        }
-
-        .secondary-text {
-            margin-top: 30px;
-            margin-bottom: 20px;
-            font-family: 'Special Elite', monospace;
-            text-align: center;
-            color: #e0e0e0;
-            font-size: 16px;
-            font-weight: bold;
             padding: 0 20px;
         }
 
@@ -229,7 +291,7 @@
 
         .approved::after {
             content: " (approved)";
-            color: #3F613D;
+            color: #FF7F50;
             font-size: 14px;
         }
 
@@ -262,10 +324,16 @@
             visibility: hidden;
         }
 
-        #modal input {
-            width: 80%;
-            margin: 10px auto;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
     </style>
 </head>
 <body>
@@ -289,8 +357,8 @@
 
     <div id="mainContent">
         <div class="nav-buttons">
-            <button class="button" onclick="showPage('homePage')">HOME</button>
-            <button class="button" onclick="showPage('whitelistPage')">WHITELIST</button>
+            <button class="button" onclick="showPage('homePage')">Home</button>
+            <button class="button" onclick="showPage('whitelistPage')">Whitelist</button>
         </div>
 
         <div id="homePage">
@@ -300,6 +368,20 @@
         </div>
 
         <div id="whitelistPage">
+            <button class="admin-button" onclick="showAdminModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </button>
+            
+            <div id="adminModal">
+                <button class="close-button" onclick="closeAdminModal()">×</button>
+                <div class="admin-title">Admin Only!</div>
+                <input type="password" id="adminCode" onkeyup="checkAdminCode(event)">
+                <div class="admin-error" id="adminError">error</div>
+            </div>
+
             <div class="warning-text">This party is by invitation only; only people on the whitelist are allowed to attend!</div>
             <div class="secondary-text">Please click on your name, then enter your passcode to secure your place in 2025</div>
             <div id="names-container"></div>
@@ -327,134 +409,10 @@
             'Marko': 'nirvana196'
         };
 
-        let selectedName = '';
-
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-            document.getElementById('personal-password').value = '';
-            document.getElementById('error-message').style.display = 'none';
-        }
-
-        function closeValidationMessage() {
-            document.getElementById('validation-message').style.display = 'none';
-        }
-
-        function checkPassword(event) {
-            if (event.key === 'Enter') {
-                if (document.getElementById('passwordInput').value.toLowerCase() === 'openyoureyes') {
-                    document.getElementById('passwordPage').style.display = 'none';
-                    document.getElementById('mainContent').style.display = 'block';
-                    showPage('homePage');
-                    startTimer();
-                } else {
-                    document.getElementById('passwordInput').value = '';
-                    document.getElementById('errorMessage').style.visibility = 'visible';
-                    setTimeout(() => {
-                        document.getElementById('errorMessage').style.visibility = 'hidden';
-                    }, 3000);
-                }
-            }
-        }
-
-        function checkPersonalPassword(event) {
-            if (event.key === 'Enter') {
-                validatePersonalPassword();
-            }
-        }
-
-        function showPage(pageId) {
-            document.getElementById('homePage').style.display = 'none';
-            document.getElementById('whitelistPage').style.display = 'none';
-            document.getElementById(pageId).style.display = 'flex';
-        }
-
-        function showPersonalPasswordModal(name) {
-            selectedName = name;
-            document.getElementById('modal').style.display = 'block';
-            document.getElementById('personal-password').value = '';
-            document.getElementById('error-message').style.display = 'none';
-        }
-
-        function validatePersonalPassword() {
-            const password = document.getElementById('personal-password').value;
-            if (password === passwords[selectedName]) {
-                document.getElementById('modal').style.display = 'none';
-                showSuccessMessage();
-                markNameAsApproved(selectedName);
-            } else {
-                document.getElementById('error-message').style.display = 'block';
-            }
-        }
-
-        function showSuccessMessage() {
-            const message = document.getElementById('validation-message');
-            document.getElementById('validation-text').textContent = 
-                "You have successfully entered your personal password. Congratulations! See you soon.";
-            message.style.display = 'block';
-            
-            setTimeout(() => {
-                if (message.style.display === 'block') {
-                    message.style.display = 'none';
-                }
-            }, 10000);
-        }
-
-        function markNameAsApproved(name) {
-            const nameElement = Array.from(document.getElementsByClassName('name'))
-                .find(el => el.textContent === name);
-            if (nameElement) {
-                nameElement.classList.add('approved');
-            }
-        }
-
-        function createWhitelist() {
-            const container = document.getElementById('names-container');
-            nameGroups.forEach(group => {
-                const groupDiv = document.createElement('div');
-                groupDiv.className = 'name-group';
-                
-                group.forEach(name => {
-                    const nameDiv = document.createElement('div');
-                    nameDiv.className = 'name';
-                    nameDiv.textContent = name;
-                    nameDiv.onclick = () => showPersonalPasswordModal(name);
-                    groupDiv.appendChild(nameDiv);
-                });
-                
-                container.appendChild(groupDiv);
-            });
-        }
-
-        function startTimer() {
-            const endDate = new Date('2024-12-31T23:59:59');
-            
-            function updateTimer() {
-                const now = new Date();
-                const diff = endDate - now;
-                
-                if (diff <= 0) {
-                    document.getElementById('timer').innerHTML = '00:00:00:00';
-                    return;
-                }
-                
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                
-                document.getElementById('timer').innerHTML = 
-                    String(days).padStart(2, '0') + ':' +
-                    String(hours).padStart(2, '0') + ':' +
-                    String(minutes).padStart(2, '0') + ':' +
-                    String(seconds).padStart(2, '0');
-            }
-            
-            updateTimer();
-            setInterval(updateTimer, 1000);
-        }
-
-        // Initialize
-        createWhitelist();
-    </script>
-</body>
-</html>
+        const adminCodes = {
+            '82937465': 'Tilen',
+            '12345678': 'Zala',
+            '98765432': 'Leo',
+            '56109234': 'Mariol',
+            '43721890': 'Gašper',
+            '80976543': '

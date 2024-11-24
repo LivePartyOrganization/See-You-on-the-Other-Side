@@ -447,7 +447,7 @@
 </body>
 </html>
 <script>
-    // Globalne spremenljivke
+// Globalne spremenljivke
 let selectedName = null;
 let approvedNames = new Set();
 
@@ -596,22 +596,35 @@ function closeModal() {
 // Preverjanje osebnega gesla
 function submitPersonalPassword() {
     const password = document.getElementById('personal-password').value;
-    if (passwords[selectedName] === password) {
-        approvedNames.add(selectedName);
+    const currentName = selectedName; // Shranimo trenutno izbrano ime
+    
+    if (passwords[currentName] === password) {
+        approvedNames.add(currentName);
         saveApprovedNames();
         setupNames();
         closeModal();
-        showValidationMessage(`Welcome to the new universe, ${selectedName}!`);
+        showValidationMessage(`Welcome to the new universe, ${currentName}!`);
     } else {
         document.getElementById('error-message').style.display = 'block';
     }
 }
 
-// Preverjanje osebnega gesla
+// Preverjanje osebnega gesla ob pritisku Enter
 function checkPersonalPassword(event) {
     if (event.key === 'Enter') {
         submitPersonalPassword();
     }
+}
+
+// Validation message funkcije
+function showValidationMessage(message) {
+    const validationMessage = document.getElementById('validation-message');
+    document.getElementById('validation-text').textContent = message;
+    validationMessage.style.display = 'block';
+}
+
+function closeValidationMessage() {
+    document.getElementById('validation-message').style.display = 'none';
 }
 
 // Admin modal funkcije
@@ -650,17 +663,6 @@ function checkAdminCode(event) {
             }, 2000);
         }
     }
-}
-
-// Validation message funkcije
-function showValidationMessage(message) {
-    const validationMessage = document.getElementById('validation-message');
-    document.getElementById('validation-text').textContent = message;
-    validationMessage.style.display = 'block';
-}
-
-function closeValidationMessage() {
-    document.getElementById('validation-message').style.display = 'none';
 }
 </script>
 </body>

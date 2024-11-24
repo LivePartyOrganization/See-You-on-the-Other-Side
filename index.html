@@ -399,7 +399,7 @@
     <button class="close-button" onclick="closeModal()">×</button>
     <div class="modal-title">Please enter your personal password</div>
     <div class="modal-container">
-        <input type="password" id="personal-password">
+        <input type="password" id="personal-password" onkeyup="checkPersonalPassword(event)">
         <button class="modal-enter-button" onclick="submitPersonalPassword()">Enter</button>
     </div>
     <div id="error-message">error: incorrect password (make sure you clicked on your name, not someone else's!)</div>

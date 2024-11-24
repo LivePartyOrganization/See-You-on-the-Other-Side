@@ -6,6 +6,32 @@
     <title>Private Party 2025</title>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Anton&family=Playfair+Display&family=Ubuntu:wght@400;700&family=Delius&display=swap" rel="stylesheet">
     <style>
+        .modal-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px;
+}
+
+#modal {
+    min-width: 400px; /* Povečal širino modalnega okna */
+}
+
+.modal-enter-button {
+    background-color: #1a1a1a;
+    border: none;
+    padding: 10px 20px;
+    height: 42px;
+    font-size: 18px;
+    font-family: 'Special Elite', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #e0e0e0;
+}
+
+.modal-enter-button:hover {
+    background-color: #2a2a2a;
+}
         .login-container {
     display: flex;
     align-items: center;
@@ -370,11 +396,14 @@
 </div>
 
     <div id="modal">
-        <button class="close-button" onclick="closeModal()">×</button>
-        <div class="modal-title">Please enter your personal password</div>
-        <input type="password" id="personal-password" onkeyup="checkPersonalPassword(event)">
-        <div id="error-message">error: incorrect password (make sure you clicked on your name, not someone else's!)</div>
+    <button class="close-button" onclick="closeModal()">×</button>
+    <div class="modal-title">Please enter your personal password</div>
+    <div class="modal-container">
+        <input type="password" id="personal-password">
+        <button class="modal-enter-button" onclick="submitPersonalPassword()">Enter</button>
     </div>
+    <div id="error-message">error: incorrect password (make sure you clicked on your name, not someone else's!)</div>
+</div>
 
     <div id="validation-message">
         <button class="close-validation" onclick="closeValidationMessage()">×</button>
@@ -565,18 +594,23 @@ function closeModal() {
 }
 
 // Preverjanje osebnega gesla
+function submitPersonalPassword() {
+    const password = document.getElementById('personal-password').value;
+    if (passwords[selectedName] === password) {
+        approvedNames.add(selectedName);
+        saveApprovedNames();
+        setupNames();
+        closeModal();
+        showValidationMessage(`Welcome to the new universe, ${selectedName}!`);
+    } else {
+        document.getElementById('error-message').style.display = 'block';
+    }
+}
+
+// Preverjanje osebnega gesla
 function checkPersonalPassword(event) {
     if (event.key === 'Enter') {
-        const password = document.getElementById('personal-password').value;
-        if (passwords[selectedName] === password) {
-            approvedNames.add(selectedName);
-            saveApprovedNames(); // Shranimo spremembe
-            setupNames();
-            closeModal();
-            showValidationMessage(`Welcome to the new universe, ${selectedName}!`);
-        } else {
-            document.getElementById('error-message').style.display = 'block';
-        }
+        submitPersonalPassword();
     }
 }
 

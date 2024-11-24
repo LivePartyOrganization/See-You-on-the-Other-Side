@@ -438,6 +438,9 @@ const adminCodes = {
 
 // Počakamo, da se stran naloži
 document.addEventListener('DOMContentLoaded', function() {
+    // Naložimo shranjene odobritve iz localStorage
+    loadApprovedNames();
+    
     const passwordInput = document.getElementById('passwordInput');
     passwordInput.addEventListener('keyup', function(event) {
         if (event.key === 'Enter') {
@@ -445,6 +448,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Funkcija za shranjevanje odobrenih imen
+function saveApprovedNames() {
+    localStorage.setItem('approvedNames', JSON.stringify(Array.from(approvedNames)));
+}
+
+// Funkcija za nalaganje odobrenih imen
+function loadApprovedNames() {
+    const saved = localStorage.getItem('approvedNames');
+    if (saved) {
+        approvedNames = new Set(JSON.parse(saved));
+    }
+}
 
 // Preverjanje začetnega gesla
 function checkPassword() {
@@ -531,6 +547,7 @@ function checkPersonalPassword(event) {
         const password = document.getElementById('personal-password').value;
         if (passwords[selectedName] === password) {
             approvedNames.add(selectedName);
+            saveApprovedNames(); // Shranimo spremembe
             setupNames();
             closeModal();
             showValidationMessage(`Welcome to the new universe, ${selectedName}!`);
@@ -560,6 +577,7 @@ function checkAdminCode(event) {
         if (adminName) {
             if (approvedNames.has(adminName)) {
                 approvedNames.delete(adminName);
+                saveApprovedNames(); // Shranimo spremembe
                 showValidationMessage(`${adminName}'s approval has been reset`);
             } else {
                 showValidationMessage(`Code recognized, but ${adminName} is not currently approved`);

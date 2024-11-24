@@ -404,166 +404,180 @@
 
 </body>
 <script>
-    const nameGroups = [
-        ['Tilen', 'Zala'],
-        ['Leo', 'Mariol'],
-        ['Gašper', 'Zarja'],
-        ['Jacques', 'Alja'],
-        ['Marko']
-    ];
+    // Global variables
+let selectedName = null;
+let approvedNames = new Set();
 
-    const passwords = {
-        'Tilen': 'paradise729',
-        'Zala': 'harmony438',
-        'Leo': 'serenity152',
-        'Mariol': 'euphoria684',
-        'Gašper': 'bliss921',
-        'Zarja': 'unity307',
-        'Jacques': 'dreamscape562',
-        'Alja': 'eden843',
-        'Marko': 'nirvana196'
-    };
+const nameGroups = [
+    ['Tilen', 'Zala'],
+    ['Leo', 'Mariol'],
+    ['Gašper', 'Zarja'],
+    ['Jacques', 'Alja'],
+    ['Marko']
+];
 
-    const adminCodes = {
-        '82937465': 'Tilen',
-        '12345678': 'Zala',
-        '98765432': 'Leo',
-        '56109234': 'Mariol',
-        '43721890': 'Gašper'
-    };
+const passwords = {
+    'Tilen': 'paradise729',
+    'Zala': 'harmony438',
+    'Leo': 'serenity152',
+    'Mariol': 'euphoria684',
+    'Gašper': 'bliss921',
+    'Zarja': 'unity307',
+    'Jacques': 'dreamscape562',
+    'Alja': 'eden843',
+    'Marko': 'nirvana196'
+};
 
-    // Globalne spremenljivke
-    let selectedName = null;
-    let approvedNames = new Set();
+const adminCodes = {
+    '82937465': 'Tilen',
+    '12345678': 'Zala',
+    '98765432': 'Leo',
+    '56109234': 'Mariol',
+    '43721890': 'Gašper',
+    '80976543': 'Zarja',
+    '21436587': 'Jacques',
+    '67890123': 'Alja',
+    '34567219': 'Marko'
+};
 
-    // Funkcija za preverjanje začetnega gesla
-    function checkPassword(event) {
-        if (event.key === 'Enter') {
-            const password = document.getElementById('passwordInput').value;
-            if (password === 'koda2025') {
-                document.getElementById('passwordPage').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-                showPage('homePage');
-                setupTimer();
-                setupNames();
-            } else {
-                document.getElementById('errorMessage').style.visibility = 'visible';
-            }
+// Function to check initial password
+function checkPassword(event) {
+    if (event.key === 'Enter') {
+        const password = document.getElementById('passwordInput').value;
+        if (password === 'koda2025') {
+            document.getElementById('passwordPage').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            showPage('homePage');
+            setupTimer();
+            setupNames();
+        } else {
+            document.getElementById('errorMessage').style.visibility = 'visible';
         }
     }
+}
 
-    // Funkcija za nastavitev odštevalnika
-    function setupTimer() {
-        const targetDate = new Date('2025-01-01T00:00:00').getTime();
+// Function to set up timer
+function setupTimer() {
+    const targetDate = new Date('2025-01-01T00:00:00').getTime();
+    
+    setInterval(() => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
         
-        setInterval(() => {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-            
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            document.getElementById('timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }, 1000);
-    }
-
-    // Funkcija za prikazovanje strani
-    function showPage(pageId) {
-        document.getElementById('homePage').style.display = 'none';
-        document.getElementById('whitelistPage').style.display = 'none';
-        document.getElementById(pageId).style.display = 'flex';
-    }
-
-    // Funkcija za nastavitev imen
-    function setupNames() {
-        const container = document.getElementById('names-container');
-        container.innerHTML = '';
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         
-        nameGroups.forEach(group => {
-            const groupDiv = document.createElement('div');
-            groupDiv.className = 'name-group';
-            
-            group.forEach(name => {
-                const nameDiv = document.createElement('div');
-                nameDiv.className = 'name';
-                if (approvedNames.has(name)) {
-                    nameDiv.classList.add('approved');
-                }
-                nameDiv.textContent = name;
-                nameDiv.onclick = () => showModal(name);
-                groupDiv.appendChild(nameDiv);
-            });
-            
-            container.appendChild(groupDiv);
+        document.getElementById('timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }, 1000);
+}
+
+// Function to show pages
+function showPage(pageId) {
+    document.getElementById('homePage').style.display = 'none';
+    document.getElementById('whitelistPage').style.display = 'none';
+    document.getElementById(pageId).style.display = 'flex';
+}
+
+// Function to set up names
+function setupNames() {
+    const container = document.getElementById('names-container');
+    container.innerHTML = '';
+    
+    nameGroups.forEach(group => {
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'name-group';
+        
+        group.forEach(name => {
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'name';
+            if (approvedNames.has(name)) {
+                nameDiv.classList.add('approved');
+            }
+            nameDiv.textContent = name;
+            nameDiv.onclick = () => showModal(name);
+            groupDiv.appendChild(nameDiv);
         });
-    }
+        
+        container.appendChild(groupDiv);
+    });
+}
 
-    // Funkcije za modal
-    function showModal(name) {
-        selectedName = name;
-        document.getElementById('modal').style.display = 'block';
-        document.getElementById('personal-password').value = '';
-        document.getElementById('error-message').style.display = 'none';
-    }
+// Modal functions
+function showModal(name) {
+    selectedName = name;
+    document.getElementById('modal').style.display = 'block';
+    document.getElementById('personal-password').value = '';
+    document.getElementById('error-message').style.display = 'none';
+}
 
-    function closeModal() {
-        document.getElementById('modal').style.display = 'none';
-        selectedName = null;
-    }
+function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+    selectedName = null;
+}
 
-    // Funkcija za preverjanje osebnega gesla
-    function checkPersonalPassword(event) {
-        if (event.key === 'Enter') {
-            const password = document.getElementById('personal-password').value;
-            if (passwords[selectedName] === password) {
-                approvedNames.add(selectedName);
-                setupNames();
-                closeModal();
-                showValidationMessage(`Welcome to the new universe, ${selectedName}!`);
-            } else {
-                document.getElementById('error-message').style.display = 'block';
-            }
+// Function to check personal password
+function checkPersonalPassword(event) {
+    if (event.key === 'Enter') {
+        const password = document.getElementById('personal-password').value;
+        if (passwords[selectedName] === password) {
+            approvedNames.add(selectedName);
+            setupNames();
+            closeModal();
+            showValidationMessage(`Welcome to the new universe, ${selectedName}!`);
+        } else {
+            document.getElementById('error-message').style.display = 'block';
         }
     }
+}
 
-    // Funkcije za admin modal
-    function showAdminModal() {
-        document.getElementById('adminModal').style.display = 'block';
-    }
+// Admin modal functions
+function showAdminModal() {
+    document.getElementById('adminModal').style.display = 'block';
+}
 
-    function closeAdminModal() {
-        document.getElementById('adminModal').style.display = 'none';
-    }
+function closeAdminModal() {
+    document.getElementById('adminModal').style.display = 'none';
+    document.getElementById('adminCode').value = '';
+    document.getElementById('adminError').style.opacity = 0;
+}
 
-    function checkAdminCode(event) {
-        if (event.key === 'Enter') {
-            const code = document.getElementById('adminCode').value;
-            const adminName = adminCodes[code];
-            
-            if (adminName) {
-                showValidationMessage(`Welcome, admin ${adminName}!`);
-                closeAdminModal();
+// Updated admin code check function
+function checkAdminCode(event) {
+    if (event.key === 'Enter') {
+        const code = document.getElementById('adminCode').value;
+        const adminName = adminCodes[code];
+        
+        if (adminName) {
+            if (approvedNames.has(adminName)) {
+                // Remove approval if the name was approved
+                approvedNames.delete(adminName);
+                showValidationMessage(`${adminName}'s approval has been reset`);
             } else {
-                const errorElement = document.getElementById('adminError');
-                errorElement.textContent = 'Invalid admin code';
-                errorElement.style.opacity = 1;
-                setTimeout(() => {
-                    errorElement.style.opacity = 0;
-                }, 2000);
+                showValidationMessage(`Code recognized, but ${adminName} is not currently approved`);
             }
+            setupNames(); // Refresh the display
+            closeAdminModal();
+        } else {
+            const errorElement = document.getElementById('adminError');
+            errorElement.textContent = 'Invalid admin code';
+            errorElement.style.opacity = 1;
+            setTimeout(() => {
+                errorElement.style.opacity = 0;
+            }, 2000);
         }
     }
+}
 
-    // Funkcije za validation message
-    function showValidationMessage(message) {
-        const validationMessage = document.getElementById('validation-message');
-        document.getElementById('validation-text').textContent = message;
-        validationMessage.style.display = 'block';
-    }
+// Validation message functions
+function showValidationMessage(message) {
+    const validationMessage = document.getElementById('validation-message');
+    document.getElementById('validation-text').textContent = message;
+    validationMessage.style.display = 'block';
+}
 
-    function closeValidationMessage() {
-        document.getElementById('validation-message').style.display = 'none';
-    }
+function closeValidationMessage() {
+    document.getElementById('validation-message').style.display = 'none';
+}
 </script>

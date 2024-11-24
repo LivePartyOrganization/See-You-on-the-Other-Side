@@ -403,6 +403,7 @@
         <button class="modal-enter-button" onclick="submitPersonalPassword()">Enter</button>
     </div>
     <div id="error-message">error: incorrect password (make sure you clicked on your name, not someone else's!)</div>
+    <input type="hidden" id="selected-name">
 </div>
 
     <div id="validation-message">
@@ -448,7 +449,6 @@
 </html>
 <script>
 // Globalne spremenljivke
-let selectedName = '';
 let approvedNames = new Set();
 
 const nameGroups = [
@@ -582,8 +582,7 @@ function setupNames() {
 
 // Modal funkcije
 function showModal(name) {
-    selectedName = name; // Nastavimo globalno spremenljivko
-    console.log("Izbrano ime:", selectedName); // Za debugiranje
+    document.getElementById('selected-name').value = name;
     document.getElementById('modal').style.display = 'block';
     document.getElementById('personal-password').value = '';
     document.getElementById('error-message').style.display = 'none';
@@ -591,23 +590,20 @@ function showModal(name) {
 
 function closeModal() {
     document.getElementById('modal').style.display = 'none';
+    document.getElementById('selected-name').value = '';
 }
 
 // Preverjanje osebnega gesla
 function submitPersonalPassword() {
     const password = document.getElementById('personal-password').value;
-    console.log("Preverjam geslo za ime:", selectedName); // Za debugiranje
+    const name = document.getElementById('selected-name').value;
     
-    if (selectedName && passwords[selectedName] === password) {
-        approvedNames.add(selectedName);
+    if (name && passwords[name] === password) {
+        approvedNames.add(name);
         saveApprovedNames();
         setupNames();
         closeModal();
-        
-        // Počakamo trenutek preden prikažemo sporočilo
-        setTimeout(() => {
-            showValidationMessage(`Welcome to the new universe, ${selectedName}!`);
-        }, 100);
+        showValidationMessage(`Welcome to the new universe, ${name}!`);
     } else {
         document.getElementById('error-message').style.display = 'block';
     }

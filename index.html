@@ -225,7 +225,6 @@
         }
 
         .warning-text, .secondary-text {
-            margin-top: 150px;
             font-family: 'Special Elite', monospace;
             text-align: center;
             color: #e0e0e0;
@@ -233,6 +232,7 @@
             max-width: 800px;
             line-height: 1.5;
             padding: 0 20px;
+            margin: 0 auto;
         }
 
         #homePage, #whitelistPage {
@@ -395,14 +395,14 @@
                 <div class="admin-error" id="adminError">error</div>
             </div>
 
-            <div class="warning-text">This party is by invitation only; only people on the whitelist are allowed to attend!</div>
-            <div class="secondary-text">Please click on your name, then enter your passcode to secure your place in 2025</div>
+            <div style="text-align: center; margin-top: 100px;">
+                <div class="warning-text" style="margin-top: 20px;">This party is by invitation only, and only those approved on the whitelist are allowed to attend!</div>
+                <div class="secondary-text" style="margin-top: 20px;">Please click on your name, then enter your own passcode to secure your place in 2025.</div>
+            </div>
             <div id="names-container"></div>
         </div>
     </div>
 
-
-</body>
 <script>
     // Global variables
 let selectedName = null;

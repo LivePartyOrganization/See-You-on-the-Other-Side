@@ -6,6 +6,26 @@
     <title>Private Party 2025</title>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Anton&family=Playfair+Display&family=Ubuntu:wght@400;700&family=Delius&display=swap" rel="stylesheet">
     <style>
+        .login-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.enter-button {
+    background-color: #e0e0e0;
+    border: none;
+    padding: 10px 20px;
+    height: 42px;
+    font-size: 18px;
+    font-family: 'Special Elite', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.enter-button:hover {
+    background-color: #b0b0b0;
+}
         * {
             margin: 0;
             padding: 0;
@@ -332,19 +352,22 @@
         }
 
         #errorMessage {
-            color: #880808;
-            font-size: 16px;
-            margin-top: 10px;
-            visibility: hidden;
-        }
+    color: #880808;
+    font-size: 16px;
+    margin-top: 10px;
+    display: none;
+}
     </style>
 </head>
 <body>
     <div id="passwordPage">
-        <div class="header">ENTER YOUR PASSWORD</div>
-        <input type="password" id="passwordInput" onkeyup="checkPassword(event)">
-        <div id="errorMessage">incorrect password try again</div>
+    <div class="header">ENTER YOUR PASSWORD</div>
+    <div class="login-container">
+        <input type="password" id="passwordInput">
+        <button class="enter-button" onclick="checkPassword()">Enter</button>
     </div>
+    <div id="errorMessage">incorrect password try again</div>
+</div>
 
     <div id="modal">
         <button class="close-button" onclick="closeModal()">×</button>
@@ -476,9 +499,16 @@ function checkPassword() {
         setupNames();
     } else {
         console.log('Geslo je napačno!');
-        document.getElementById('errorMessage').style.visibility = 'visible';
+        document.getElementById('errorMessage').style.display = 'block';
     }
 }
+
+// Dodaj ta event listener v DOMContentLoaded del
+document.getElementById('passwordInput').addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+        checkPassword();
+    }
+});
 
 // Nastavitev časovnika
 function setupTimer() {

@@ -448,7 +448,7 @@
 </html>
 <script>
 // Globalne spremenljivke
-let selectedName = null;
+let selectedName = '';
 let approvedNames = new Set();
 
 const nameGroups = [
@@ -572,10 +572,7 @@ function setupNames() {
                 nameDiv.classList.add('approved');
             }
             nameDiv.textContent = name;
-            nameDiv.setAttribute('data-name', name); // Dodamo ime kot data atribut
-            nameDiv.onclick = function() {
-                showModal(this.getAttribute('data-name')); // Uporabimo ime iz data atributa
-            };
+            nameDiv.onclick = () => showModal(name);
             groupDiv.appendChild(nameDiv);
         });
         
@@ -586,7 +583,7 @@ function setupNames() {
 // Modal funkcije
 function showModal(name) {
     selectedName = name; // Nastavimo globalno spremenljivko
-    console.log("Selected name in showModal:", selectedName); // Dodamo logging
+    console.log("Izbrano ime:", selectedName); // Za debugiranje
     document.getElementById('modal').style.display = 'block';
     document.getElementById('personal-password').value = '';
     document.getElementById('error-message').style.display = 'none';
@@ -599,15 +596,18 @@ function closeModal() {
 // Preverjanje osebnega gesla
 function submitPersonalPassword() {
     const password = document.getElementById('personal-password').value;
-    console.log("Checking password for name:", selectedName); // Dodamo logging
+    console.log("Preverjam geslo za ime:", selectedName); // Za debugiranje
     
-    if (passwords[selectedName] === password) {
+    if (selectedName && passwords[selectedName] === password) {
         approvedNames.add(selectedName);
         saveApprovedNames();
         setupNames();
         closeModal();
-        console.log("Showing welcome message for:", selectedName); // Dodamo logging
-        showValidationMessage(`Welcome to the new universe, ${selectedName}!`);
+        
+        // Počakamo trenutek preden prikažemo sporočilo
+        setTimeout(() => {
+            showValidationMessage(`Welcome to the new universe, ${selectedName}!`);
+        }, 100);
     } else {
         document.getElementById('error-message').style.display = 'block';
     }
@@ -651,7 +651,7 @@ function checkAdminCode(event) {
         if (adminName) {
             if (approvedNames.has(adminName)) {
                 approvedNames.delete(adminName);
-                saveApprovedNames();
+                saveApprovedNames(); // Shranimo spremembe
                 showValidationMessage(`${adminName}'s approval has been reset`);
             } else {
                 showValidationMessage(`Code recognized, but ${adminName} is not currently approved`);

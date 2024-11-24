@@ -436,19 +436,31 @@ const adminCodes = {
     '34567219': 'Marko'
 };
 
-// Preverjanje začetnega gesla
-function checkPassword(event) {
-    if (event.key === 'Enter') {
-        const password = document.getElementById('passwordInput').value;
-        if (password === 'koda2025') {
-            document.getElementById('passwordPage').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-            showPage('homePage');
-            setupTimer();
-            setupNames();
-        } else {
-            document.getElementById('errorMessage').style.visibility = 'visible';
+// Počakamo, da se stran naloži
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('passwordInput');
+    passwordInput.addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            checkPassword();
         }
+    });
+});
+
+// Preverjanje začetnega gesla
+function checkPassword() {
+    const password = document.getElementById('passwordInput').value;
+    console.log('Preverjam geslo:', password);
+    
+    if (password === 'koda2025') {
+        console.log('Geslo je pravilno!');
+        document.getElementById('passwordPage').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        showPage('homePage');
+        setupTimer();
+        setupNames();
+    } else {
+        console.log('Geslo je napačno!');
+        document.getElementById('errorMessage').style.visibility = 'visible';
     }
 }
 
@@ -539,7 +551,7 @@ function closeAdminModal() {
     document.getElementById('adminError').style.opacity = 0;
 }
 
-// Posodobljena funkcija za preverjanje admin kode
+// Preverjanje admin kode
 function checkAdminCode(event) {
     if (event.key === 'Enter') {
         const code = document.getElementById('adminCode').value;
@@ -547,13 +559,12 @@ function checkAdminCode(event) {
         
         if (adminName) {
             if (approvedNames.has(adminName)) {
-                // Odstrani potrditev če je bilo ime potrjeno
                 approvedNames.delete(adminName);
                 showValidationMessage(`${adminName}'s approval has been reset`);
             } else {
                 showValidationMessage(`Code recognized, but ${adminName} is not currently approved`);
             }
-            setupNames(); // Osveži prikaz
+            setupNames();
             closeAdminModal();
         } else {
             const errorElement = document.getElementById('adminError');

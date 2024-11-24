@@ -399,12 +399,10 @@
                 <div class="warning-text" style="margin-top: 20px;">This party is by invitation only, and only those approved on the whitelist are allowed to attend!</div>
                 <div class="secondary-text" style="margin-top: 20px;">Please click on your name, then enter your own passcode to secure your place in 2025.</div>
             </div>
-            <div id="names-container"></div>
-        </div>
-    </div>
+            <div id="
 
 <script>
-    // Global variables
+    // Globalne spremenljivke
 let selectedName = null;
 let approvedNames = new Set();
 
@@ -413,6 +411,7 @@ const nameGroups = [
     ['Leo', 'Mariol'],
     ['Gašper', 'Zarja'],
     ['Jacques', 'Alja'],
+    ['Urban', 'Jerneja'],
     ['Marko']
 ];
 
@@ -425,6 +424,8 @@ const passwords = {
     'Zarja': 'unity307',
     'Jacques': 'dreamscape562',
     'Alja': 'eden843',
+    'Urban': 'zion721',
+    'Jerneja': 'arcadia323',
     'Marko': 'nirvana196'
 };
 
@@ -437,10 +438,12 @@ const adminCodes = {
     '80976543': 'Zarja',
     '21436587': 'Jacques',
     '67890123': 'Alja',
+    '87038972': 'Urban',
+    '72630234': 'Jerneja',
     '34567219': 'Marko'
 };
 
-// Function to check initial password
+// Preverjanje začetnega gesla
 function checkPassword(event) {
     if (event.key === 'Enter') {
         const password = document.getElementById('passwordInput').value;
@@ -456,7 +459,7 @@ function checkPassword(event) {
     }
 }
 
-// Function to set up timer
+// Nastavitev časovnika
 function setupTimer() {
     const targetDate = new Date('2025-01-01T00:00:00').getTime();
     
@@ -473,14 +476,14 @@ function setupTimer() {
     }, 1000);
 }
 
-// Function to show pages
+// Prikaz strani
 function showPage(pageId) {
     document.getElementById('homePage').style.display = 'none';
     document.getElementById('whitelistPage').style.display = 'none';
     document.getElementById(pageId).style.display = 'flex';
 }
 
-// Function to set up names
+// Nastavitev imen
 function setupNames() {
     const container = document.getElementById('names-container');
     container.innerHTML = '';
@@ -504,7 +507,7 @@ function setupNames() {
     });
 }
 
-// Modal functions
+// Modal funkcije
 function showModal(name) {
     selectedName = name;
     document.getElementById('modal').style.display = 'block';
@@ -517,7 +520,7 @@ function closeModal() {
     selectedName = null;
 }
 
-// Function to check personal password
+// Preverjanje osebnega gesla
 function checkPersonalPassword(event) {
     if (event.key === 'Enter') {
         const password = document.getElementById('personal-password').value;
@@ -532,7 +535,7 @@ function checkPersonalPassword(event) {
     }
 }
 
-// Admin modal functions
+// Admin modal funkcije
 function showAdminModal() {
     document.getElementById('adminModal').style.display = 'block';
 }
@@ -543,7 +546,7 @@ function closeAdminModal() {
     document.getElementById('adminError').style.opacity = 0;
 }
 
-// Updated admin code check function
+// Posodobljena funkcija za preverjanje admin kode
 function checkAdminCode(event) {
     if (event.key === 'Enter') {
         const code = document.getElementById('adminCode').value;
@@ -551,13 +554,13 @@ function checkAdminCode(event) {
         
         if (adminName) {
             if (approvedNames.has(adminName)) {
-                // Remove approval if the name was approved
+                // Odstrani potrditev če je bilo ime potrjeno
                 approvedNames.delete(adminName);
                 showValidationMessage(`${adminName}'s approval has been reset`);
             } else {
                 showValidationMessage(`Code recognized, but ${adminName} is not currently approved`);
             }
-            setupNames(); // Refresh the display
+            setupNames(); // Osveži prikaz
             closeAdminModal();
         } else {
             const errorElement = document.getElementById('adminError');
@@ -570,7 +573,7 @@ function checkAdminCode(event) {
     }
 }
 
-// Validation message functions
+// Validation message funkcije
 function showValidationMessage(message) {
     const validationMessage = document.getElementById('validation-message');
     document.getElementById('validation-text').textContent = message;

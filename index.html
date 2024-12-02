@@ -58,18 +58,17 @@
             box-sizing: border-box;
         }
 
-body {
-    background-color: #1a1a1a !important;
-    color: #e0e0e0;
-    font-family: 'Special Elite', monospace;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
-    position: relative;
-}
+        body {
+            background-color: #1a1a1a !important;
+            color: #e0e0e0;
+            font-family: 'Special Elite', monospace;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
 
         #passwordPage {
             display: flex;
@@ -78,16 +77,14 @@ body {
             justify-content: center;
             min-height: 100vh;
             width: 100%;
-            background-color: rgba(26, 26, 26, 0.7);
-			backdrop-filter: blur(5px);
+            background-color: #1a1a1a;
         }
 
         #mainContent {
             display: none;
             width: 100%;
             min-height: 100vh;
-            background-color: rgba(26, 26, 26, 0.7);
-			backdrop-filter: blur(5px);
+            background-color: #1a1a1a;
         }
 
         #modal {
@@ -119,8 +116,7 @@ body {
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
-            z-index: 9999;
-	    pointer-events: auto !important;
+            z-index: 1000;
         }
 
         .admin-button svg {
@@ -291,8 +287,7 @@ body {
             display: none;
             flex-direction: column;
             align-items: center;
-            background-color: rgba(26, 26, 26, 0.7);
-			backdrop-filter: blur(5px);
+            background-color: #1a1a1a;
         }
 
         #mainTitle {
@@ -391,50 +386,6 @@ body {
     </style>
 </head>
 <body>
-<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden;">
-    <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <radialGradient id="circle-gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                <stop offset="0%" style="stop-color:#800080;stop-opacity:0.3"/>
-                <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:0"/>
-            </radialGradient>
-            <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                <feMerge>
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-            </filter>
-        </defs>
-        
-        <rect width="100%" height="100%" fill="#1a1a1a"/>
-        <circle cx="500" cy="500" r="300" fill="url(#circle-gradient)" opacity="0.5"/>
-        
-        <g filter="url(#glow)">
-            <circle cx="234" cy="345" r="4" fill="#f1c40f">
-                <animate attributeName="opacity" values="1;0;1" dur="8s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="789" cy="234" r="3" fill="#f1c40f">
-                <animate attributeName="opacity" values="1;0;1" dur="9s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="345" cy="789" r="5" fill="#f1c40f">
-                <animate attributeName="opacity" values="1;0;1" dur="10s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="678" cy="456" r="4" fill="#f1c40f">
-                <animate attributeName="opacity" values="1;0;1" dur="8.5s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="123" cy="567" r="3" fill="#f1c40f">
-                <animate attributeName="opacity" values="1;0;1" dur="9.5s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="890" cy="678" r="5" fill="#f1c40f">
-                <animate attributeName="opacity" values="1;0;1" dur="7.8s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="456" cy="123" r="4" fill="#f1c40f">
-                <animate attributeName="opacity" values="1;0;1" dur="8.8s" repeatCount="indefinite"/>
-            </circle>
-        </g>
-    </svg>
-</div>
     <div id="passwordPage">
     <div class="header">ENTER YOUR PASSWORD</div>
     <div class="login-container">
@@ -543,11 +494,21 @@ document.addEventListener('DOMContentLoaded', function() {
     loadApprovedNames();
     
     const passwordInput = document.getElementById('passwordInput');
-    passwordInput.addEventListener('keyup', function(event) {
-        if (event.key === 'Enter') {
-            checkPassword();
-        }
-    });
+    if (passwordInput) {
+        passwordInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    }
+
+    // Dodamo event listener za admin gumb
+    const adminButton = document.querySelector('.admin-button');
+    if (adminButton) {
+        adminButton.addEventListener('click', function() {
+            showAdminModal();
+        });
+    }
 });
 
 // Funkcija za shranjevanje odobrenih imen
@@ -594,7 +555,10 @@ function setupTimer() {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         
-        document.getElementById('timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        const timerElement = document.getElementById('timer');
+        if (timerElement) {
+            timerElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
     }, 1000);
 }
 
@@ -608,6 +572,8 @@ function showPage(pageId) {
 // Nastavitev imen
 function setupNames() {
     const container = document.getElementById('names-container');
+    if (!container) return;
+    
     container.innerHTML = '';
     
     nameGroups.forEach(group => {
@@ -631,15 +597,27 @@ function setupNames() {
 
 // Modal funkcije
 function showModal(name) {
-    document.getElementById('selected-name').value = name;
-    document.getElementById('modal').style.display = 'block';
-    document.getElementById('personal-password').value = '';
-    document.getElementById('error-message').style.display = 'none';
+    const modal = document.getElementById('modal');
+    const selectedName = document.getElementById('selected-name');
+    const personalPassword = document.getElementById('personal-password');
+    const errorMessage = document.getElementById('error-message');
+    
+    if (modal && selectedName && personalPassword && errorMessage) {
+        selectedName.value = name;
+        modal.style.display = 'block';
+        personalPassword.value = '';
+        errorMessage.style.display = 'none';
+    }
 }
 
 function closeModal() {
-    document.getElementById('modal').style.display = 'none';
-    document.getElementById('selected-name').value = '';
+    const modal = document.getElementById('modal');
+    const selectedName = document.getElementById('selected-name');
+    
+    if (modal && selectedName) {
+        modal.style.display = 'none';
+        selectedName.value = '';
+    }
 }
 
 // Preverjanje osebnega gesla
@@ -654,7 +632,10 @@ function submitPersonalPassword() {
         closeModal();
         showValidationMessage(`Welcome to the new universe, ${name}!`);
     } else {
-        document.getElementById('error-message').style.display = 'block';
+        const errorMessage = document.getElementById('error-message');
+        if (errorMessage) {
+            errorMessage.style.display = 'block';
+        }
     }
 }
 
@@ -668,23 +649,39 @@ function checkPersonalPassword(event) {
 // Validation message funkcije
 function showValidationMessage(message) {
     const validationMessage = document.getElementById('validation-message');
-    document.getElementById('validation-text').textContent = message;
-    validationMessage.style.display = 'block';
+    const validationText = document.getElementById('validation-text');
+    
+    if (validationMessage && validationText) {
+        validationText.textContent = message;
+        validationMessage.style.display = 'block';
+    }
 }
 
 function closeValidationMessage() {
-    document.getElementById('validation-message').style.display = 'none';
+    const validationMessage = document.getElementById('validation-message');
+    if (validationMessage) {
+        validationMessage.style.display = 'none';
+    }
 }
 
 // Admin modal funkcije
 function showAdminModal() {
-    document.getElementById('adminModal').style.display = 'block';
+    const adminModal = document.getElementById('adminModal');
+    if (adminModal) {
+        adminModal.style.display = 'block';
+    }
 }
 
 function closeAdminModal() {
-    document.getElementById('adminModal').style.display = 'none';
-    document.getElementById('adminCode').value = '';
-    document.getElementById('adminError').style.opacity = 0;
+    const adminModal = document.getElementById('adminModal');
+    const adminCode = document.getElementById('adminCode');
+    const adminError = document.getElementById('adminError');
+    
+    if (adminModal && adminCode && adminError) {
+        adminModal.style.display = 'none';
+        adminCode.value = '';
+        adminError.style.opacity = 0;
+    }
 }
 
 // Preverjanje admin kode
@@ -696,7 +693,7 @@ function checkAdminCode(event) {
         if (adminName) {
             if (approvedNames.has(adminName)) {
                 approvedNames.delete(adminName);
-                saveApprovedNames(); // Shranimo spremembe
+                saveApprovedNames();
                 showValidationMessage(`${adminName}'s approval has been reset`);
             } else {
                 showValidationMessage(`Code recognized, but ${adminName} is not currently approved`);
@@ -705,14 +702,17 @@ function checkAdminCode(event) {
             closeAdminModal();
         } else {
             const errorElement = document.getElementById('adminError');
-            errorElement.textContent = 'Invalid admin code';
-            errorElement.style.opacity = 1;
-            setTimeout(() => {
-                errorElement.style.opacity = 0;
-            }, 2000);
+            if (errorElement) {
+                errorElement.textContent = 'Invalid admin code';
+                errorElement.style.opacity = 1;
+                setTimeout(() => {
+                    errorElement.style.opacity = 0;
+                }, 2000);
+            }
         }
     }
 }
+
 </script>
 </body>
 </html>

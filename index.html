@@ -1,11 +1,3 @@
-Razumem težave. Popravil bom:
-1. Problem s prezgodnjim prikazom napake za geslo
-2. Centriranje besedila
-3. Pravilno razporeditev vseh elementov
-
-Tu je prvi del kode, ki vsebuje začetek HTML strukture in CSS:
-
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -114,8 +106,7 @@ Tu je prvi del kode, ki vsebuje začetek HTML strukture in CSS:
             text-align: center;
             color: #880808;
         }
-
-        .nav-buttons {
+		        .nav-buttons {
             position: fixed;
             top: 20px;
             display: flex;
@@ -137,14 +128,35 @@ Tu je prvi del kode, ki vsebuje začetek HTML strukture in CSS:
             font-weight: 700;
             min-height: 44px;
         }
-```
-.name-group {
+
+        .name-group {
             margin: 20px 0;
             text-align: center;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+
+        #whitelistPage {
+            padding-top: 120px;  /* Added extra padding to prevent overlap */
+        }
+
+        .warning-text {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 0 20px;
+            font-size: 18px;
+        }
+
+        .secondary-text {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 0 20px;
+            font-size: 16px;
+            color: #b0b0b0;
         }
 
         .name {
@@ -171,7 +183,7 @@ Tu je prvi del kode, ki vsebuje začetek HTML strukture in CSS:
         }
 
         .approved::after {
-            content: " (odobreno)";
+            content: " (approved)";
             color: #FF7F50;
             font-size: 14px;
         }
@@ -234,95 +246,44 @@ Tu je prvi del kode, ki vsebuje začetek HTML strukture in CSS:
             cursor: pointer;
             padding: 5px 10px;
         }
-
-        .warning-text {
-            text-align: center;
-            margin: 20px auto;
-            max-width: 600px;
-            padding: 0 20px;
-            font-size: 18px;
-        }
-
-        .secondary-text {
-            text-align: center;
-            margin: 20px auto;
-            max-width: 600px;
-            padding: 0 20px;
-            font-size: 16px;
-            color: #b0b0b0;
-        }
-
-        #names-container {
-            margin-top: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        @media screen and (max-width: 768px) {
-            #mainTitle {
-                font-size: 24px;
-                margin-top: 15vh;
-            }
-
-            #timer {
-                font-size: 40px;
-                margin-top: 10vh;
-            }
-
-            .nav-buttons {
-                gap: 15px;
-            }
-
-            .button {
-                font-size: 18px;
-                padding: 8px 15px;
-            }
-
-            .name {
-                width: 180px;
-                font-size: 16px;
-            }
-        }
-    </style>
+		    </style>
 </head>
 <body>
-<div id="passwordPage">
-        <div class="header">VNESITE GESLO</div>
+    <div id="passwordPage">
+        <div class="header">ENTER YOUR PASSWORD</div>
         <div class="login-container">
             <input type="password" id="passwordInput">
-            <button class="enter-button" onclick="checkPassword()">Vstopi</button>
+            <button class="enter-button" onclick="checkPassword()">Enter</button>
         </div>
-        <div id="errorMessage">Napačno geslo, poskusite znova</div>
+        <div id="errorMessage">incorrect password try again</div>
     </div>
 
     <div id="mainContent">
         <div class="nav-buttons">
-            <button class="button" onclick="showPage('homePage')">Domov</button>
-            <button class="button" onclick="showPage('whitelistPage')">Seznam</button>
+            <button class="button" onclick="showPage('homePage')">Home</button>
+            <button class="button" onclick="showPage('whitelistPage')">Whitelist</button>
         </div>
 
         <div id="homePage">
-            <div id="mainTitle">ODPRITE OČI V NOV SVET</div>
+            <div id="mainTitle">OPEN YOUR EYES TO A WHOLE NEW UNIVERSE</div>
             <div id="timer"></div>
         </div>
 
         <div id="whitelistPage">
-            <div class="warning-text">Ta zabava je samo za povabljene, udeležijo se je lahko samo tisti, ki so na seznamu!</div>
-            <div class="secondary-text">Kliknite na svoje ime in vnesite svojo kodo za potrditev mesta v 2025.</div>
+            <div class="warning-text">This party is by invitation only, and only those approved on the whitelist are allowed to attend!</div>
+            <div class="secondary-text">Please click on your name, then enter your personal code to secure your place in 2025.</div>
             <div id="names-container"></div>
         </div>
     </div>
 
     <div id="modal">
         <button class="close-button" onclick="closeModal()">×</button>
-        <div class="modal-title">Prosimo, vnesite svojo osebno kodo</div>
+        <div class="modal-title">Please enter your personal code</div>
         <div class="modal-container">
             <input type="password" id="personal-password" onkeyup="checkPersonalPassword(event)">
-            <button class="modal-enter-button" onclick="submitPersonalPassword()">Vstopi</button>
+            <button class="modal-enter-button" onclick="submitPersonalPassword()">Enter</button>
         </div>
-        <div id="error-message">Napaka: napačna koda (prepričajte se, da ste kliknili na svoje ime!)</div>
+        <div id="error-message">error: incorrect code (make sure you clicked on your name, not someone else's!)</div>
         <input type="hidden" id="selected-name">
     </div>
 
@@ -370,7 +331,7 @@ Tu je prvi del kode, ki vsebuje začetek HTML strukture in CSS:
 
         function checkPassword() {
             const password = document.getElementById('passwordInput').value;
-            if (password === 'koda2025') {
+            if (password === 'liveparty') {
                 document.getElementById('passwordPage').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
                 showPage('homePage');
@@ -454,7 +415,7 @@ Tu je prvi del kode, ki vsebuje začetek HTML strukture in CSS:
                 saveApprovedNames();
                 setupNames();
                 closeModal();
-                alert(`Dobrodošli v novem svetu, ${name}!`);
+                alert(`Welcome to the new universe, ${name}!`);
             } else {
                 document.getElementById('error-message').style.display = 'block';
             }

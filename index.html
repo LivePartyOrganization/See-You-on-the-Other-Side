@@ -2,60 +2,18 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Private Party 2025</title>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Anton&family=Playfair+Display&family=Ubuntu:wght@400;700&family=Delius&display=swap" rel="stylesheet">
     <style>
-        .modal-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 20px;
-}
-
-#modal {
-    min-width: 400px; /* Povečal širino modalnega okna */
-}
-
-.modal-enter-button {
-    background-color: #1a1a1a;
-    border: none;
-    padding: 10px 20px;
-    height: 42px;
-    font-size: 18px;
-    font-family: 'Special Elite', monospace;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: #e0e0e0;
-}
-
-.modal-enter-button:hover {
-    background-color: #2a2a2a;
-}
-        .login-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.enter-button {
-    background-color: #e0e0e0;
-    border: none;
-    padding: 10px 20px;
-    height: 42px;
-    font-size: 18px;
-    font-family: 'Special Elite', monospace;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.enter-button:hover {
-    background-color: #b0b0b0;
-}
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -68,6 +26,65 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+        }
+
+        .modal-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        #modal {
+            min-width: 400px;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .modal-enter-button {
+            background-color: #1a1a1a;
+            border: none;
+            padding: 10px 20px;
+            height: 42px;
+            font-size: 18px;
+            font-family: 'Special Elite', monospace;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #e0e0e0;
+            min-height: 44px;
+            border-radius: 4px;
+        }
+
+        .modal-enter-button:hover {
+            background-color: #2a2a2a;
+        }
+
+        .login-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+            padding: 0 20px;
+        }
+
+        .enter-button {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 12px 24px;
+            height: 42px;
+            font-size: 18px;
+            font-family: 'Special Elite', monospace;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            border-radius: 4px;
+        }
+
+        .enter-button:hover {
+            background-color: #b0b0b0;
         }
 
         #passwordPage {
@@ -78,6 +95,7 @@
             min-height: 100vh;
             width: 100%;
             background-color: #1a1a1a;
+            padding: 20px;
         }
 
         #mainContent {
@@ -85,23 +103,60 @@
             width: 100%;
             min-height: 100vh;
             background-color: #1a1a1a;
+            animation: fadeIn 0.5s ease-in;
         }
 
-        #modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #85929e;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            z-index: 1000;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        input {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px !important;
+            width: 100%;
+            font-family: 'Special Elite', monospace;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #e0e0e0;
             text-align: center;
-            min-width: 300px;
+            padding: 0 20px;
         }
 
+        .nav-buttons {
+            position: fixed;
+            top: 20px;
+            display: flex;
+            gap: 30px;
+            z-index: 1000;
+            justify-content: center;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .button {
+            background-color: transparent;
+            border: none;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            min-height: 44px;
+        }
+</style>
+<style>
         .admin-button {
             position: fixed;
             top: 20px;
@@ -117,6 +172,8 @@
             justify-content: center;
             transition: all 0.3s ease;
             z-index: 1000;
+            min-height: 44px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         .admin-button svg {
@@ -144,150 +201,7 @@
             z-index: 1000;
             text-align: center;
             min-width: 300px;
-        }
-
-        .admin-title {
-            color: #f1c40f;
-            font-family: 'Special Elite', monospace;
-            font-size: 16px;
-            margin-bottom: 20px;
-            text-align: center;
-            margin-left: 20px;
-        }
-
-        .admin-error {
-            color: #f1c40f;
-            font-family: 'Special Elite', monospace;
-            font-size: 14px;
-            margin-top: 10px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        #adminModal input {
-            background-color: #e0e0e0;
-            border: none;
-            padding: 10px;
-            margin: 20px auto;
-            font-size: 18px;
-            width: 80%;
-            font-family: 'Special Elite', monospace;
-            display: block;
-        }
-
-        .close-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            color: #1a1a1a;
-            font-size: 24px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            font-family: 'Ubuntu', sans-serif;
-            line-height: 1;
-        }
-
-        .close-button:hover {
-            color: #880808;
-        }
-
-        .modal-title {
-            width: 100%;
-            margin: 10px 0 20px 0;
-            font-size: 18px;
-            color: #1a1a1a;
-            text-align: center;
-            padding-left: 20px;
-        }
-
-        #validation-message {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0,0,0,0.9);
-            color: #00FF00;
-            padding: 40px;
-            border-radius: 10px;
-            z-index: 2000;
-            text-align: center;
-            min-width: 300px;
-            font-size: 20px;
-        }
-
-        .close-validation {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            color: #00FF00;
-            font-size: 24px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            font-family: 'Ubuntu', sans-serif;
-            line-height: 1;
-        }
-
-        .close-validation:hover {
-            color: #FF7F50;
-        }
-
-        #validation-text {
-            padding-left: 20px;
-        }
-
-        .nav-buttons {
-            position: fixed;
-            top: 20px;
-            display: flex;
-            gap: 30px;
-            z-index: 1000;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .button {
-            background-color: transparent;
-            border: none;
-            color: #e0e0e0;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-family: 'Ubuntu', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
-
-        .button:hover {
-            color: #880808;
-        }
-
-        .warning-text, .secondary-text {
-            font-family: 'Special Elite', monospace;
-            text-align: center;
-            color: #e0e0e0;
-            font-size: 16px;
-            max-width: 800px;
-            line-height: 1.5;
-            padding: 0 20px;
-            margin: 0 auto;
-        }
-
-        #homePage, #whitelistPage {
-            width: 100%;
-            min-height: 100vh;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            background-color: #1a1a1a;
+            animation: fadeIn 0.3s ease-in;
         }
 
         #mainTitle {
@@ -308,14 +222,9 @@
             color: #880808;
         }
 
-        .party-text {
-            font-size: 24px;
-            margin-top: auto;
-            margin-bottom: 40px;
-            font-family: 'Playfair Display', serif;
-            font-weight: 400;
-            letter-spacing: 1px;
-            color: #e0e0e0;
+        .name-group {
+            margin: 20px 0;
+            text-align: center;
         }
 
         .name {
@@ -323,24 +232,17 @@
             font-family: 'Special Elite', monospace;
             cursor: pointer;
             transition: all 0.3s ease;
-            padding: 10px;
+            padding: 12px 24px;
             text-align: center;
             font-size: 18px;
+            min-height: 44px;
+            margin: 8px 0;
+            border-radius: 4px;
         }
 
         .name:hover {
             color: #880808;
-        }
-
-        .name-group {
-            margin: 20px 0;
-        }
-
-        #names-container {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: rgba(255,255,255,0.05);
         }
 
         .approved {
@@ -354,61 +256,140 @@
             font-size: 14px;
         }
 
-        #error-message {
-            color: #880808;
-            margin-top: 10px;
+        #validation-message {
             display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0,0,0,0.9);
+            color: #00FF00;
+            padding: 40px;
+            border-radius: 10px;
+            z-index: 2000;
+            text-align: center;
+            min-width: 300px;
+            font-size: 20px;
+            animation: fadeIn 0.3s ease-in;
         }
-
-        .header {
+        .close-validation {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #00FF00;
             font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #e0e0e0;
-        }
-
-        input {
-            background-color: #e0e0e0;
+            cursor: pointer;
+            background: none;
             border: none;
-            padding: 10px;
-            margin: 20px;
-            font-size: 18px;
-            width: 200px;
-            font-family: 'Special Elite', monospace;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            font-family: 'Ubuntu', sans-serif;
+            line-height: 1;
+            min-height: 44px;
         }
 
-        #errorMessage {
-    color: #880808;
-    font-size: 16px;
-    margin-top: 10px;
-    display: none;
-}
+        .close-validation:hover {
+            color: #FF7F50;
+        }
+        /* Za mobilne naprave */
+        @media screen and (max-width: 768px) {
+            #mainTitle {
+                font-size: 24px;
+                margin-top: 15vh;
+            }
+
+            #timer {
+                font-size: 40px;
+                margin-top: 10vh;
+            }
+
+            .party-text {
+                font-size: 20px;
+            }
+
+            .nav-buttons {
+                gap: 15px;
+            }
+
+            .button {
+                font-size: 18px;
+                padding: 8px 15px;
+            }
+
+            #modal, #adminModal {
+                width: 95%;
+                min-width: auto;
+                padding: 20px;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            .modal-container {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .modal-enter-button {
+                width: 100%;
+            }
+
+            #adminModal {
+                width: 90%;
+                right: 50%;
+                transform: translate(50%, -50%);
+            }
+
+            .name-group {
+                margin: 10px 0;
+            }
+
+            .name {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+
+        @media screen and (orientation: landscape) and (max-height: 500px) {
+            #mainTitle {
+                margin-top: 10vh;
+                font-size: 20px;
+            }
+            
+            #timer {
+                margin-top: 5vh;
+                font-size: 36px;
+            }
+            
+            .party-text {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (hover: none) {
+            .button:hover, .name:hover {
+                color: #e0e0e0;
+            }
+            
+            .button:active, .name:active {
+                color: #880808;
+                transform: scale(0.98);
+            }
+
+            .modal-container:active {
+                transform: scale(0.98);
+            }
+        }
     </style>
 </head>
 <body>
     <div id="passwordPage">
-    <div class="header">ENTER YOUR PASSWORD</div>
-    <div class="login-container">
-        <input type="password" id="passwordInput">
-        <button class="enter-button" onclick="checkPassword()">Enter</button>
-    </div>
-    <div id="errorMessage">incorrect password try again</div>
-</div>
-
-    <div id="modal">
-    <button class="close-button" onclick="closeModal()">×</button>
-    <div class="modal-title">Please enter your personal password</div>
-    <div class="modal-container">
-        <input type="password" id="personal-password" onkeyup="checkPersonalPassword(event)">
-        <button class="modal-enter-button" onclick="submitPersonalPassword()">Enter</button>
-    </div>
-    <div id="error-message">error: incorrect password (make sure you clicked on your name, not someone else's!)</div>
-    <input type="hidden" id="selected-name">
-</div>
-
-    <div id="validation-message">
-        <button class="close-validation" onclick="closeValidationMessage()">×</button>
-        <span id="validation-text"></span>
+        <div class="header">ENTER YOUR PASSWORD</div>
+        <div class="login-container">
+            <input type="password" id="passwordInput">
+            <button class="enter-button" onclick="checkPassword()">Enter</button>
+        </div>
+        <div id="errorMessage">incorrect password try again</div>
     </div>
 
     <div id="mainContent">
@@ -418,19 +399,18 @@
         </div>
 
         <div id="homePage">
-            <div id="mainTitle">The Twenty five Midnight Invite Only</div>
+            <div id="mainTitle">OPEN YOUR EYES TO A WHOLE NEW UNIVERSE</div>
             <div id="timer"></div>
             <div class="party-text">PRIVATE PARTY</div>
         </div>
-
-        <div id="whitelistPage">
+		<div id="whitelistPage">
             <button class="admin-button" onclick="showAdminModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="3"></circle>
                     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
             </button>
-            
+
             <div id="adminModal">
                 <button class="close-button" onclick="closeAdminModal()">×</button>
                 <div class="admin-title">Admin Only!</div>
@@ -445,8 +425,23 @@
             <div id="names-container"></div>
         </div>
     </div>
-</body>
-</html>
+
+    <div id="modal">
+        <button class="close-button" onclick="closeModal()">×</button>
+        <div class="modal-title">Please enter your personal password</div>
+        <div class="modal-container">
+            <input type="password" id="personal-password" onkeyup="checkPersonalPassword(event)">
+            <button class="modal-enter-button" onclick="submitPersonalPassword()">Enter</button>
+        </div>
+        <div id="error-message">error: incorrect password (make sure you clicked on your name, not someone else's!)</div>
+        <input type="hidden" id="selected-name">
+    </div>
+
+    <div id="validation-message">
+        <button class="close-validation" onclick="closeValidationMessage()">×</button>
+        <span id="validation-text"></span>
+    </div>
+
 <script>
 // Globalne spremenljivke
 let approvedNames = new Set();
@@ -488,9 +483,16 @@ const adminCodes = {
     '34567219': 'Marko'
 };
 
-// Počakamo, da se stran naloži
+// Mobilne izboljšave - prilagajanje viewport-a
+function adjustViewportForKeyboard() {
+    const viewport = document.querySelector('meta[name=viewport]');
+    if (viewport) {
+        viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0';
+    }
+}
+
+// Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Naložimo shranjene odobritve iz localStorage
     loadApprovedNames();
     
     const passwordInput = document.getElementById('passwordInput');
@@ -502,21 +504,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Dodamo event listener za admin gumb
     const adminButton = document.querySelector('.admin-button');
     if (adminButton) {
         adminButton.addEventListener('click', function() {
             showAdminModal();
         });
     }
+
+    // Mobilne izboljšave - input handling
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('focus', adjustViewportForKeyboard);
+    });
+
+    // Mobilne izboljšave - orientacija zaslona
+    window.addEventListener('orientationchange', function() {
+        setTimeout(function() {
+            window.scrollTo(0, 0);
+            if (document.activeElement.tagName === 'INPUT') {
+                document.activeElement.scrollIntoView();
+            }
+        }, 100);
+    });
 });
 
-// Funkcija za shranjevanje odobrenih imen
 function saveApprovedNames() {
     localStorage.setItem('approvedNames', JSON.stringify(Array.from(approvedNames)));
 }
 
-// Funkcija za nalaganje odobrenih imen
 function loadApprovedNames() {
     const saved = localStorage.getItem('approvedNames');
     if (saved) {
@@ -524,25 +538,20 @@ function loadApprovedNames() {
     }
 }
 
-// Preverjanje začetnega gesla
 function checkPassword() {
     const password = document.getElementById('passwordInput').value;
-    console.log('Preverjam geslo:', password);
     
-    if (password === 'liveparty') {
-        console.log('Geslo je pravilno!');
+    if (password === 'koda2025') {
         document.getElementById('passwordPage').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
         showPage('homePage');
         setupTimer();
         setupNames();
     } else {
-        console.log('Geslo je napačno!');
         document.getElementById('errorMessage').style.display = 'block';
     }
 }
 
-// Nastavitev časovnika
 function setupTimer() {
     const targetDate = new Date('2025-01-01T00:00:00').getTime();
     
@@ -555,21 +564,16 @@ function setupTimer() {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         
-        const timerElement = document.getElementById('timer');
-        if (timerElement) {
-            timerElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }
+        document.getElementById('timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }, 1000);
 }
 
-// Prikaz strani
 function showPage(pageId) {
     document.getElementById('homePage').style.display = 'none';
     document.getElementById('whitelistPage').style.display = 'none';
     document.getElementById(pageId).style.display = 'flex';
 }
 
-// Nastavitev imen
 function setupNames() {
     const container = document.getElementById('names-container');
     if (!container) return;
@@ -595,7 +599,6 @@ function setupNames() {
     });
 }
 
-// Modal funkcije
 function showModal(name) {
     const modal = document.getElementById('modal');
     const selectedName = document.getElementById('selected-name');
@@ -607,6 +610,9 @@ function showModal(name) {
         modal.style.display = 'block';
         personalPassword.value = '';
         errorMessage.style.display = 'none';
+        
+        // Mobilna optimizacija - scroll na vrh
+        window.scrollTo(0, 0);
     }
 }
 
@@ -620,7 +626,6 @@ function closeModal() {
     }
 }
 
-// Preverjanje osebnega gesla
 function submitPersonalPassword() {
     const password = document.getElementById('personal-password').value;
     const name = document.getElementById('selected-name').value;
@@ -632,21 +637,16 @@ function submitPersonalPassword() {
         closeModal();
         showValidationMessage(`Welcome to the new universe, ${name}!`);
     } else {
-        const errorMessage = document.getElementById('error-message');
-        if (errorMessage) {
-            errorMessage.style.display = 'block';
-        }
+        document.getElementById('error-message').style.display = 'block';
     }
 }
 
-// Preverjanje osebnega gesla ob pritisku Enter
 function checkPersonalPassword(event) {
     if (event.key === 'Enter') {
         submitPersonalPassword();
     }
 }
 
-// Validation message funkcije
 function showValidationMessage(message) {
     const validationMessage = document.getElementById('validation-message');
     const validationText = document.getElementById('validation-text');
@@ -654,6 +654,9 @@ function showValidationMessage(message) {
     if (validationMessage && validationText) {
         validationText.textContent = message;
         validationMessage.style.display = 'block';
+        
+        // Mobilna optimizacija - scroll na vrh
+        window.scrollTo(0, 0);
     }
 }
 
@@ -664,11 +667,13 @@ function closeValidationMessage() {
     }
 }
 
-// Admin modal funkcije
 function showAdminModal() {
     const adminModal = document.getElementById('adminModal');
     if (adminModal) {
         adminModal.style.display = 'block';
+        
+        // Mobilna optimizacija - scroll na vrh
+        window.scrollTo(0, 0);
     }
 }
 
@@ -684,7 +689,6 @@ function closeAdminModal() {
     }
 }
 
-// Preverjanje admin kode
 function checkAdminCode(event) {
     if (event.key === 'Enter') {
         const code = document.getElementById('adminCode').value;
@@ -712,7 +716,6 @@ function checkAdminCode(event) {
         }
     }
 }
-
 </script>
 </body>
 </html>

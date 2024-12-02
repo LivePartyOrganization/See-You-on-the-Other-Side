@@ -1,65 +1,31 @@
+Razumem težave. Popravil bom:
+1. Problem s prezgodnjim prikazom napake za geslo
+2. Centriranje besedila
+3. Pravilno razporeditev vseh elementov
+
+Tu je prvi del kode, ki vsebuje začetek HTML strukture in CSS:
+
+```html
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Private Party 2025</title>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Anton&family=Playfair+Display&family=Ubuntu:wght@400;700&family=Delius&display=swap" rel="stylesheet">
     <style>
-        .modal-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 20px;
-}
-
-#modal {
-    min-width: 400px; /* Povečal širino modalnega okna */
-}
-
-.modal-enter-button {
-    background-color: #1a1a1a;
-    border: none;
-    padding: 10px 20px;
-    height: 42px;
-    font-size: 18px;
-    font-family: 'Special Elite', monospace;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: #e0e0e0;
-}
-
-.modal-enter-button:hover {
-    background-color: #2a2a2a;
-}
-        .login-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.enter-button {
-    background-color: #e0e0e0;
-    border: none;
-    padding: 10px 20px;
-    height: 42px;
-    font-size: 18px;
-    font-family: 'Special Elite', monospace;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.enter-button:hover {
-    background-color: #b0b0b0;
-}
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #1a1a1a !important;
+            background-color: #1a1a1a;
             color: #e0e0e0;
             font-family: 'Special Elite', monospace;
             margin: 0;
@@ -68,6 +34,7 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
+            text-align: center;
         }
 
         #passwordPage {
@@ -77,227 +44,66 @@
             justify-content: center;
             min-height: 100vh;
             width: 100%;
-            background-color: #1a1a1a;
+            padding: 20px;
+        }
+
+        .header {
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .login-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            font-family: 'Special Elite', monospace;
+            border-radius: 4px;
+        }
+
+        .enter-button {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-family: 'Special Elite', monospace;
+            cursor: pointer;
+            border-radius: 4px;
+            min-height: 44px;
+        }
+
+        #errorMessage {
+            display: none;
+            color: #ff4444;
+            margin-top: 10px;
+            text-align: center;
         }
 
         #mainContent {
             display: none;
             width: 100%;
             min-height: 100vh;
-            background-color: #1a1a1a;
-        }
-
-        #modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #85929e;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            z-index: 1000;
-            text-align: center;
-            min-width: 300px;
-        }
-
-        .admin-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #FF0000;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .admin-button svg {
-            width: 24px;
-            height: 24px;
-            color: white;
-        }
-
-        .admin-button:hover {
-            transform: rotate(90deg);
-            background-color: #880808;
-        }
-
-        #adminModal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            right: 20%;
-            transform: translateY(-50%);
-            background-color: #7b241c;
-            padding: 30px;
-            border-radius: 10px;
-            border: 2px solid #FF0000;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            z-index: 1000;
-            text-align: center;
-            min-width: 300px;
-        }
-
-        .admin-title {
-            color: #f1c40f;
-            font-family: 'Special Elite', monospace;
-            font-size: 16px;
-            margin-bottom: 20px;
-            text-align: center;
-            margin-left: 20px;
-        }
-
-        .admin-error {
-            color: #f1c40f;
-            font-family: 'Special Elite', monospace;
-            font-size: 14px;
-            margin-top: 10px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        #adminModal input {
-            background-color: #e0e0e0;
-            border: none;
-            padding: 10px;
-            margin: 20px auto;
-            font-size: 18px;
-            width: 80%;
-            font-family: 'Special Elite', monospace;
-            display: block;
-        }
-
-        .close-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            color: #1a1a1a;
-            font-size: 24px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            font-family: 'Ubuntu', sans-serif;
-            line-height: 1;
-        }
-
-        .close-button:hover {
-            color: #880808;
-        }
-
-        .modal-title {
-            width: 100%;
-            margin: 10px 0 20px 0;
-            font-size: 18px;
-            color: #1a1a1a;
-            text-align: center;
-            padding-left: 20px;
-        }
-
-        #validation-message {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0,0,0,0.9);
-            color: #00FF00;
-            padding: 40px;
-            border-radius: 10px;
-            z-index: 2000;
-            text-align: center;
-            min-width: 300px;
-            font-size: 20px;
-        }
-
-        .close-validation {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            color: #00FF00;
-            font-size: 24px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            font-family: 'Ubuntu', sans-serif;
-            line-height: 1;
-        }
-
-        .close-validation:hover {
-            color: #FF7F50;
-        }
-
-        #validation-text {
-            padding-left: 20px;
-        }
-
-        .nav-buttons {
-            position: fixed;
-            top: 20px;
-            display: flex;
-            gap: 30px;
-            z-index: 1000;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .button {
-            background-color: transparent;
-            border: none;
-            color: #e0e0e0;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-family: 'Ubuntu', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
-
-        .button:hover {
-            color: #880808;
-        }
-
-        .warning-text, .secondary-text {
-            font-family: 'Special Elite', monospace;
-            text-align: center;
-            color: #e0e0e0;
-            font-size: 16px;
-            max-width: 800px;
-            line-height: 1.5;
-            padding: 0 20px;
-            margin: 0 auto;
-        }
-
-        #homePage, #whitelistPage {
-            width: 100%;
-            min-height: 100vh;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            background-color: #1a1a1a;
         }
 
         #mainTitle {
             font-size: 32px;
             font-weight: bold;
             margin-top: 25vh;
-            width: 100%;
             text-align: center;
             font-family: 'Anton', sans-serif;
-            letter-spacing: 1px;
             padding: 0 20px;
             color: #e0e0e0;
         }
@@ -305,42 +111,58 @@
         #timer {
             font-size: 72px;
             margin-top: 20vh;
+            text-align: center;
             color: #880808;
         }
 
-        .party-text {
-            font-size: 24px;
-            margin-top: auto;
-            margin-bottom: 40px;
-            font-family: 'Playfair Display', serif;
-            font-weight: 400;
-            letter-spacing: 1px;
+        .nav-buttons {
+            position: fixed;
+            top: 20px;
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            width: 100%;
+            padding: 0 10px;
+            z-index: 1000;
+        }
+
+        .button {
+            background-color: transparent;
+            border: none;
             color: #e0e0e0;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            min-height: 44px;
+        }
+```
+.name-group {
+            margin: 20px 0;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .name {
             color: #f1c40f;
             font-family: 'Special Elite', monospace;
             cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 10px;
-            text-align: center;
+            padding: 12px 24px;
             font-size: 18px;
+            margin: 8px 0;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            width: 200px;
+            text-align: center;
         }
 
         .name:hover {
             color: #880808;
-        }
-
-        .name-group {
-            margin: 20px 0;
-        }
-
-        #names-container {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: rgba(255,255,255,0.05);
         }
 
         .approved {
@@ -349,370 +171,300 @@
         }
 
         .approved::after {
-            content: " (approved)";
+            content: " (odobreno)";
             color: #FF7F50;
             font-size: 14px;
         }
 
-        #error-message {
-            color: #880808;
-            margin-top: 10px;
+        #modal {
             display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
         }
 
-        .header {
-            font-size: 24px;
-            font-weight: bold;
+        .modal-title {
+            text-align: center;
             margin-bottom: 20px;
-            color: #e0e0e0;
+            font-size: 18px;
         }
 
-        input {
+        .modal-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-enter-button {
             background-color: #e0e0e0;
             border: none;
-            padding: 10px;
-            margin: 20px;
+            padding: 12px 24px;
             font-size: 18px;
-            width: 200px;
             font-family: 'Special Elite', monospace;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 200px;
         }
 
-        #errorMessage {
-    color: #880808;
-    font-size: 16px;
-    margin-top: 10px;
-    display: none;
-}
+        #error-message {
+            display: none;
+            color: #ff4444;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .warning-text {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 0 20px;
+            font-size: 18px;
+        }
+
+        .secondary-text {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 0 20px;
+            font-size: 16px;
+            color: #b0b0b0;
+        }
+
+        #names-container {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        @media screen and (max-width: 768px) {
+            #mainTitle {
+                font-size: 24px;
+                margin-top: 15vh;
+            }
+
+            #timer {
+                font-size: 40px;
+                margin-top: 10vh;
+            }
+
+            .nav-buttons {
+                gap: 15px;
+            }
+
+            .button {
+                font-size: 18px;
+                padding: 8px 15px;
+            }
+
+            .name {
+                width: 180px;
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div id="passwordPage">
-    <div class="header">ENTER YOUR PASSWORD</div>
-    <div class="login-container">
-        <input type="password" id="passwordInput">
-        <button class="enter-button" onclick="checkPassword()">Enter</button>
-    </div>
-    <div id="errorMessage">incorrect password try again</div>
-</div>
-
-    <div id="modal">
-    <button class="close-button" onclick="closeModal()">×</button>
-    <div class="modal-title">Please enter your personal password</div>
-    <div class="modal-container">
-        <input type="password" id="personal-password" onkeyup="checkPersonalPassword(event)">
-        <button class="modal-enter-button" onclick="submitPersonalPassword()">Enter</button>
-    </div>
-    <div id="error-message">error: incorrect password (make sure you clicked on your name, not someone else's!)</div>
-    <input type="hidden" id="selected-name">
-</div>
-
-    <div id="validation-message">
-        <button class="close-validation" onclick="closeValidationMessage()">×</button>
-        <span id="validation-text"></span>
+<div id="passwordPage">
+        <div class="header">VNESITE GESLO</div>
+        <div class="login-container">
+            <input type="password" id="passwordInput">
+            <button class="enter-button" onclick="checkPassword()">Vstopi</button>
+        </div>
+        <div id="errorMessage">Napačno geslo, poskusite znova</div>
     </div>
 
     <div id="mainContent">
         <div class="nav-buttons">
-            <button class="button" onclick="showPage('homePage')">Home</button>
-            <button class="button" onclick="showPage('whitelistPage')">Whitelist</button>
+            <button class="button" onclick="showPage('homePage')">Domov</button>
+            <button class="button" onclick="showPage('whitelistPage')">Seznam</button>
         </div>
 
         <div id="homePage">
-            <div id="mainTitle">The Twenty five Midnight Invite Only</div>
+            <div id="mainTitle">ODPRITE OČI V NOV SVET</div>
             <div id="timer"></div>
-            <div class="party-text">PRIVATE PARTY</div>
         </div>
 
         <div id="whitelistPage">
-            <button class="admin-button" onclick="showAdminModal()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                </svg>
-            </button>
-            
-            <div id="adminModal">
-                <button class="close-button" onclick="closeAdminModal()">×</button>
-                <div class="admin-title">Admin Only!</div>
-                <input type="password" id="adminCode" onkeyup="checkAdminCode(event)">
-                <div class="admin-error" id="adminError">error</div>
-            </div>
-
-            <div style="text-align: center; margin-top: 100px;">
-                <div class="warning-text" style="margin-top: 20px;">This party is by invitation only, and only those approved on the whitelist are allowed to attend!</div>
-                <div class="secondary-text" style="margin-top: 20px;">Please click on your name, then enter your own passcode to secure your place in 2025.</div>
-            </div>
+            <div class="warning-text">Ta zabava je samo za povabljene, udeležijo se je lahko samo tisti, ki so na seznamu!</div>
+            <div class="secondary-text">Kliknite na svoje ime in vnesite svojo kodo za potrditev mesta v 2025.</div>
             <div id="names-container"></div>
         </div>
     </div>
-</body>
-</html>
-<script>
-// Globalne spremenljivke
-let approvedNames = new Set();
 
-const nameGroups = [
-    ['Tilen', 'Zala'],
-    ['Leo', 'Mariol'],
-    ['Gašper', 'Zarja'],
-    ['Jacques', 'Alja'],
-    ['Urban', 'Jerneja'],
-    ['Marko']
-];
+    <div id="modal">
+        <button class="close-button" onclick="closeModal()">×</button>
+        <div class="modal-title">Prosimo, vnesite svojo osebno kodo</div>
+        <div class="modal-container">
+            <input type="password" id="personal-password" onkeyup="checkPersonalPassword(event)">
+            <button class="modal-enter-button" onclick="submitPersonalPassword()">Vstopi</button>
+        </div>
+        <div id="error-message">Napaka: napačna koda (prepričajte se, da ste kliknili na svoje ime!)</div>
+        <input type="hidden" id="selected-name">
+    </div>
 
-const passwords = {
-    'Tilen': 'paradise729',
-    'Zala': 'harmony438',
-    'Leo': 'serenity152',
-    'Mariol': 'euphoria684',
-    'Gašper': 'bliss921',
-    'Zarja': 'unity307',
-    'Jacques': 'dreamscape562',
-    'Alja': 'eden843',
-    'Urban': 'zion721',
-    'Jerneja': 'arcadia323',
-    'Marko': 'nirvana196'
-};
+    <script>
+        let approvedNames = new Set();
 
-const adminCodes = {
-    '82937465': 'Tilen',
-    '12345678': 'Zala',
-    '98765432': 'Leo',
-    '56109234': 'Mariol',
-    '43721890': 'Gašper',
-    '80976543': 'Zarja',
-    '21436587': 'Jacques',
-    '67890123': 'Alja',
-    '87038972': 'Urban',
-    '72630234': 'Jerneja',
-    '34567219': 'Marko'
-};
+        const nameGroups = [
+            ['Tilen', 'Zala'],
+            ['Leo', 'Mariol'],
+            ['Gašper', 'Zarja'],
+            ['Jacques', 'Alja'],
+            ['Urban', 'Jerneja'],
+            ['Marko']
+        ];
 
-// Počakamo, da se stran naloži
-document.addEventListener('DOMContentLoaded', function() {
-    // Naložimo shranjene odobritve iz localStorage
-    loadApprovedNames();
-    
-    const passwordInput = document.getElementById('passwordInput');
-    if (passwordInput) {
-        passwordInput.addEventListener('keyup', function(event) {
+        const passwords = {
+            'Tilen': 'paradise729',
+            'Zala': 'harmony438',
+            'Leo': 'serenity152',
+            'Mariol': 'euphoria684',
+            'Gašper': 'bliss921',
+            'Zarja': 'unity307',
+            'Jacques': 'dreamscape562',
+            'Alja': 'eden843',
+            'Urban': 'zion721',
+            'Jerneja': 'arcadia323',
+            'Marko': 'nirvana196'
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadApprovedNames();
+            setupNames();
+        });
+
+        function loadApprovedNames() {
+            const saved = localStorage.getItem('approvedNames');
+            if (saved) {
+                approvedNames = new Set(JSON.parse(saved));
+            }
+        }
+
+        function saveApprovedNames() {
+            localStorage.setItem('approvedNames', JSON.stringify(Array.from(approvedNames)));
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === 'koda2025') {
+                document.getElementById('passwordPage').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                showPage('homePage');
+                setupTimer();
+                setupNames();
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+
+        document.getElementById('passwordInput').addEventListener('keyup', function(event) {
             if (event.key === 'Enter') {
                 checkPassword();
             }
         });
-    }
 
-    // Dodamo event listener za admin gumb
-    const adminButton = document.querySelector('.admin-button');
-    if (adminButton) {
-        adminButton.addEventListener('click', function() {
-            showAdminModal();
-        });
-    }
-});
-
-// Funkcija za shranjevanje odobrenih imen
-function saveApprovedNames() {
-    localStorage.setItem('approvedNames', JSON.stringify(Array.from(approvedNames)));
-}
-
-// Funkcija za nalaganje odobrenih imen
-function loadApprovedNames() {
-    const saved = localStorage.getItem('approvedNames');
-    if (saved) {
-        approvedNames = new Set(JSON.parse(saved));
-    }
-}
-
-// Preverjanje začetnega gesla
-function checkPassword() {
-    const password = document.getElementById('passwordInput').value;
-    console.log('Preverjam geslo:', password);
-    
-    if (password === 'liveparty') {
-        console.log('Geslo je pravilno!');
-        document.getElementById('passwordPage').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
-        showPage('homePage');
-        setupTimer();
-        setupNames();
-    } else {
-        console.log('Geslo je napačno!');
-        document.getElementById('errorMessage').style.display = 'block';
-    }
-}
-
-// Nastavitev časovnika
-function setupTimer() {
-    const targetDate = new Date('2025-01-01T00:00:00').getTime();
-    
-    setInterval(() => {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-        
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        
-        const timerElement = document.getElementById('timer');
-        if (timerElement) {
-            timerElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        function setupTimer() {
+            const targetDate = new Date('2025-01-01T00:00:00').getTime();
+            
+            setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById('timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }, 1000);
         }
-    }, 1000);
-}
 
-// Prikaz strani
-function showPage(pageId) {
-    document.getElementById('homePage').style.display = 'none';
-    document.getElementById('whitelistPage').style.display = 'none';
-    document.getElementById(pageId).style.display = 'flex';
-}
-
-// Nastavitev imen
-function setupNames() {
-    const container = document.getElementById('names-container');
-    if (!container) return;
-    
-    container.innerHTML = '';
-    
-    nameGroups.forEach(group => {
-        const groupDiv = document.createElement('div');
-        groupDiv.className = 'name-group';
-        
-        group.forEach(name => {
-            const nameDiv = document.createElement('div');
-            nameDiv.className = 'name';
-            if (approvedNames.has(name)) {
-                nameDiv.classList.add('approved');
-            }
-            nameDiv.textContent = name;
-            nameDiv.onclick = () => showModal(name);
-            groupDiv.appendChild(nameDiv);
-        });
-        
-        container.appendChild(groupDiv);
-    });
-}
-
-// Modal funkcije
-function showModal(name) {
-    const modal = document.getElementById('modal');
-    const selectedName = document.getElementById('selected-name');
-    const personalPassword = document.getElementById('personal-password');
-    const errorMessage = document.getElementById('error-message');
-    
-    if (modal && selectedName && personalPassword && errorMessage) {
-        selectedName.value = name;
-        modal.style.display = 'block';
-        personalPassword.value = '';
-        errorMessage.style.display = 'none';
-    }
-}
-
-function closeModal() {
-    const modal = document.getElementById('modal');
-    const selectedName = document.getElementById('selected-name');
-    
-    if (modal && selectedName) {
-        modal.style.display = 'none';
-        selectedName.value = '';
-    }
-}
-
-// Preverjanje osebnega gesla
-function submitPersonalPassword() {
-    const password = document.getElementById('personal-password').value;
-    const name = document.getElementById('selected-name').value;
-    
-    if (name && passwords[name] === password) {
-        approvedNames.add(name);
-        saveApprovedNames();
-        setupNames();
-        closeModal();
-        showValidationMessage(`Welcome to the new universe, ${name}!`);
-    } else {
-        const errorMessage = document.getElementById('error-message');
-        if (errorMessage) {
-            errorMessage.style.display = 'block';
+        function showPage(pageId) {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('whitelistPage').style.display = 'none';
+            document.getElementById(pageId).style.display = 'block';
         }
-    }
-}
 
-// Preverjanje osebnega gesla ob pritisku Enter
-function checkPersonalPassword(event) {
-    if (event.key === 'Enter') {
-        submitPersonalPassword();
-    }
-}
+        function setupNames() {
+            const container = document.getElementById('names-container');
+            container.innerHTML = '';
+            
+            nameGroups.forEach(group => {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'name-group';
+                
+                group.forEach(name => {
+                    const nameDiv = document.createElement('div');
+                    nameDiv.className = 'name';
+                    if (approvedNames.has(name)) {
+                        nameDiv.classList.add('approved');
+                    }
+                    nameDiv.textContent = name;
+                    nameDiv.onclick = () => showModal(name);
+                    groupDiv.appendChild(nameDiv);
+                });
+                
+                container.appendChild(groupDiv);
+            });
+        }
 
-// Validation message funkcije
-function showValidationMessage(message) {
-    const validationMessage = document.getElementById('validation-message');
-    const validationText = document.getElementById('validation-text');
-    
-    if (validationMessage && validationText) {
-        validationText.textContent = message;
-        validationMessage.style.display = 'block';
-    }
-}
+        function showModal(name) {
+            const modal = document.getElementById('modal');
+            document.getElementById('selected-name').value = name;
+            document.getElementById('personal-password').value = '';
+            document.getElementById('error-message').style.display = 'none';
+            modal.style.display = 'block';
+        }
 
-function closeValidationMessage() {
-    const validationMessage = document.getElementById('validation-message');
-    if (validationMessage) {
-        validationMessage.style.display = 'none';
-    }
-}
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('selected-name').value = '';
+        }
 
-// Admin modal funkcije
-function showAdminModal() {
-    const adminModal = document.getElementById('adminModal');
-    if (adminModal) {
-        adminModal.style.display = 'block';
-    }
-}
-
-function closeAdminModal() {
-    const adminModal = document.getElementById('adminModal');
-    const adminCode = document.getElementById('adminCode');
-    const adminError = document.getElementById('adminError');
-    
-    if (adminModal && adminCode && adminError) {
-        adminModal.style.display = 'none';
-        adminCode.value = '';
-        adminError.style.opacity = 0;
-    }
-}
-
-// Preverjanje admin kode
-function checkAdminCode(event) {
-    if (event.key === 'Enter') {
-        const code = document.getElementById('adminCode').value;
-        const adminName = adminCodes[code];
-        
-        if (adminName) {
-            if (approvedNames.has(adminName)) {
-                approvedNames.delete(adminName);
+        function submitPersonalPassword() {
+            const password = document.getElementById('personal-password').value;
+            const name = document.getElementById('selected-name').value;
+            
+            if (passwords[name] === password) {
+                approvedNames.add(name);
                 saveApprovedNames();
-                showValidationMessage(`${adminName}'s approval has been reset`);
+                setupNames();
+                closeModal();
+                alert(`Dobrodošli v novem svetu, ${name}!`);
             } else {
-                showValidationMessage(`Code recognized, but ${adminName} is not currently approved`);
-            }
-            setupNames();
-            closeAdminModal();
-        } else {
-            const errorElement = document.getElementById('adminError');
-            if (errorElement) {
-                errorElement.textContent = 'Invalid admin code';
-                errorElement.style.opacity = 1;
-                setTimeout(() => {
-                    errorElement.style.opacity = 0;
-                }, 2000);
+                document.getElementById('error-message').style.display = 'block';
             }
         }
-    }
-}
 
-</script>
+        function checkPersonalPassword(event) {
+            if (event.key === 'Enter') {
+                submitPersonalPassword();
+            }
+        }
+    </script>
 </body>
 </html>

@@ -124,13 +124,17 @@
         }
 		.nav-buttons {
             position: fixed;
-            top: 20px;
+            top: 0;
+            left: 0;
+            right: 0;
             display: flex;
             gap: 30px;
             justify-content: center;
             width: 100%;
-            padding: 0 10px;
+            padding: 10px;
             z-index: 1000;
+            background-color: #1a1a1a;
+            border-bottom: 1px solid #333;
         }
 
         .button {
@@ -157,14 +161,17 @@
         #whitelistPage {
             padding-top: 120px;
             position: relative;
+            margin-top: 60px;
         }
 
         .warning-text {
             text-align: center;
-            margin: 20px auto;
+            margin: 40px auto;
             max-width: 600px;
             padding: 0 20px;
             font-size: 18px;
+            position: relative;
+            z-index: 1;
         }
 
         .secondary-text {

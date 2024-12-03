@@ -205,7 +205,7 @@
             font-size: 14px;
         }
 
-        #modal {
+        #modal, #settingsModal {
             display: none;
             position: fixed;
             top: 50%;
@@ -225,6 +225,10 @@
             margin-bottom: 20px;
             font-size: 18px;
             color: #ffff00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .modal-container {
@@ -274,6 +278,17 @@
             border: none;
             font-size: 24px;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .settings-button:hover {
+            color: #ff0000;
+            transform: rotate(180deg);
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -299,7 +314,7 @@
             <div class="footer-text">the twenty-five midnight Live Private Party</div>
         </div>
 		<div id="whitelistPage">
-            <button class="settings-button" onclick="showResetModal()">⚙️</button>
+            <button class="settings-button" onclick="showSettingsModal()">⚙️</button>
             <div class="warning-text">This party is by invitation only, and only those approved on the whitelist are allowed to attend!</div>
             <div class="secondary-text">Please click on your name, then enter your personal code to secure your place in 2025.</div>
             <div id="names-container"></div>
@@ -317,16 +332,18 @@
         <input type="hidden" id="selected-name">
     </div>
 
-    <div id="resetModal">
-        <button class="close-button" onclick="closeResetModal()">×</button>
-        <div class="modal-title">👨‍💻 Administrator only!</div>
-        <div class="modal-container">
-            <input type="password" id="reset-name" placeholder="Enter name">
-            <input type="password" id="reset-code" placeholder="Enter reset code">
-            <button class="modal-enter-button" onclick="resetApproval()">Enter</button>
+    <div id="settingsModal">
+        <button class="close-button" onclick="closeSettingsModal()">×</button>
+        <div class="modal-title">
+            <span>👨‍💻</span>
+            <span>Administrator only!</span>
         </div>
-        <div id="reset-error" style="display:none; color: #ff4444; margin-top: 15px; text-align: center;">
-            Invalid name or reset code
+        <div class="modal-container">
+            <input type="password" id="admin-password" placeholder="Enter person's code" onkeyup="checkAdminReset(event)">
+            <button class="modal-enter-button" onclick="resetUserApproval()">Enter</button>
+        </div>
+        <div id="admin-error" style="display:none; color: #ff4444; margin-top: 15px; text-align: center;">
+            Invalid code
         </div>
     </div>
 
@@ -449,28 +466,40 @@
             document.getElementById('selected-name').value = '';
         }
 
-        function showResetModal() {
-            document.getElementById('resetModal').style.display = 'block';
-            document.getElementById('reset-name').value = '';
-            document.getElementById('reset-code').value = '';
-            document.getElementById('reset-error').style.display = 'none';
+        function showSettingsModal() {
+            document.getElementById('settingsModal').style.display = 'block';
+            document.getElementById('admin-password').value = '';
+            document.getElementById('admin-error').style.display = 'none';
         }
 
-        function closeResetModal() {
-            document.getElementById('resetModal').style.display = 'none';
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').style.display = 'none';
         }
 
-        function resetApproval() {
-            const name = document.getElementById('reset-name').value;
-            const code = document.getElementById('reset-code').value;
+        function resetUserApproval() {
+            const code = document.getElementById('admin-password').value;
+            let userFound = false;
             
-            if (code === passwords[name]) {
-                approvedNames.delete(name);
+            for (let [name, password] of Object.entries(passwords)) {
+                if (password === code && approvedNames.has(name)) {
+                    approvedNames.delete(name);
+                    userFound = true;
+                    break;
+                }
+            }
+            
+            if (userFound) {
                 saveApprovedNames();
                 setupNames();
-                closeResetModal();
+                closeSettingsModal();
             } else {
-                document.getElementById('reset-error').style.display = 'block';
+                document.getElementById('admin-error').style.display = 'block';
+            }
+        }
+
+        function checkAdminReset(event) {
+            if (event.key === 'Enter') {
+                resetUserApproval();
             }
         }
 

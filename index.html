@@ -156,6 +156,7 @@
 
         #whitelistPage {
             padding-top: 120px;
+            position: relative;
         }
 
         .warning-text {
@@ -204,7 +205,7 @@
             font-size: 14px;
         }
 
-        #modal, #settingsModal {
+        #modal {
             display: none;
             position: fixed;
             top: 50%;
@@ -264,8 +265,8 @@
             padding: 5px 10px;
         }
 
-        .settings-icon {
-            position: fixed;
+        .settings-button {
+            position: absolute;
             top: 20px;
             right: 20px;
             color: #880808;
@@ -273,7 +274,6 @@
             border: none;
             font-size: 24px;
             cursor: pointer;
-            z-index: 1001;
         }
     </style>
 </head>
@@ -288,7 +288,6 @@
     </div>
 
     <div id="mainContent">
-        <button class="settings-icon" onclick="showSettingsModal()">⚙️</button>
         <div class="nav-buttons">
             <button class="button" onclick="showPage('homePage')">Home</button>
             <button class="button" onclick="showPage('whitelistPage')">Whitelist</button>
@@ -300,6 +299,7 @@
             <div class="footer-text">the twenty-five midnight Live Private Party</div>
         </div>
 		<div id="whitelistPage">
+            <button class="settings-button" onclick="showResetModal()">⚙️</button>
             <div class="warning-text">This party is by invitation only, and only those approved on the whitelist are allowed to attend!</div>
             <div class="secondary-text">Please click on your name, then enter your personal code to secure your place in 2025.</div>
             <div id="names-container"></div>
@@ -317,12 +317,16 @@
         <input type="hidden" id="selected-name">
     </div>
 
-    <div id="settingsModal">
-        <button class="close-button" onclick="closeSettingsModal()">×</button>
+    <div id="resetModal">
+        <button class="close-button" onclick="closeResetModal()">×</button>
         <div class="modal-title">👨‍💻 Administrator only!</div>
         <div class="modal-container">
-            <input type="password" id="admin-password">
-            <button class="modal-enter-button">Enter</button>
+            <input type="password" id="reset-name" placeholder="Enter name">
+            <input type="password" id="reset-code" placeholder="Enter reset code">
+            <button class="modal-enter-button" onclick="resetApproval()">Enter</button>
+        </div>
+        <div id="reset-error" style="display:none; color: #ff4444; margin-top: 15px; text-align: center;">
+            Invalid name or reset code
         </div>
     </div>
 
@@ -445,12 +449,29 @@
             document.getElementById('selected-name').value = '';
         }
 
-        function showSettingsModal() {
-            document.getElementById('settingsModal').style.display = 'block';
+        function showResetModal() {
+            document.getElementById('resetModal').style.display = 'block';
+            document.getElementById('reset-name').value = '';
+            document.getElementById('reset-code').value = '';
+            document.getElementById('reset-error').style.display = 'none';
         }
 
-        function closeSettingsModal() {
-            document.getElementById('settingsModal').style.display = 'none';
+        function closeResetModal() {
+            document.getElementById('resetModal').style.display = 'none';
+        }
+
+        function resetApproval() {
+            const name = document.getElementById('reset-name').value;
+            const code = document.getElementById('reset-code').value;
+            
+            if (code === passwords[name]) {
+                approvedNames.delete(name);
+                saveApprovedNames();
+                setupNames();
+                closeResetModal();
+            } else {
+                document.getElementById('reset-error').style.display = 'block';
+            }
         }
 
         function submitPersonalPassword() {

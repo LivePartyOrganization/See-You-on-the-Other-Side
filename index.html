@@ -270,7 +270,7 @@
         }
 
         .settings-button {
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
             color: #880808;
@@ -281,6 +281,7 @@
             transition: all 0.3s ease;
             z-index: 1001;
             padding: 10px;
+            display: none;
         }
 
         .settings-button:hover {
@@ -304,6 +305,8 @@
         <div id="errorMessage">incorrect password try again</div>
     </div>
 
+    <button class="settings-button" onclick="showSettingsModal()">⚙️</button>
+
     <div id="mainContent">
         <div class="nav-buttons">
             <button class="button" onclick="showPage('homePage')">Home</button>
@@ -316,7 +319,6 @@
             <div class="footer-text">the twenty-five midnight Live Private Party</div>
         </div>
 		<div id="whitelistPage">
-            <button class="settings-button" onclick="showSettingsModal()">⚙️</button>
             <div class="warning-text">This party is by invitation only, and only those approved on the whitelist are allowed to attend!</div>
             <div class="secondary-text">Please click on your name, then enter your personal code to secure your place in 2025.</div>
             <div id="names-container"></div>
@@ -430,6 +432,10 @@
             document.getElementById('homePage').style.display = 'none';
             document.getElementById('whitelistPage').style.display = 'none';
             document.getElementById(pageId).style.display = 'block';
+            
+            // Show/hide settings button based on current page
+            const settingsBtn = document.querySelector('.settings-button');
+            settingsBtn.style.display = pageId === 'whitelistPage' ? 'block' : 'none';
         }
 
         function setupNames() {

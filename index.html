@@ -8,6 +8,29 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Private Party 2025</title>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Anton&family=Playfair+Display&family=Ubuntu:wght@400;700&family=Delius&family=Roboto+Flex&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+    <!-- Firebase inicializacija -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyB9UdrVuXcKfUH3uVenBm12tZQogBbwOWU",
+            authDomain: "liveparty2025.firebaseapp.com",
+            databaseURL: "https://liveparty2025-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "liveparty2025",
+            storageBucket: "liveparty2025.firebasestorage.app",
+            messagingSenderId: "626643283932",
+            appId: "1:626643283932:web:c4eb08e1242ef039e16919",
+            measurementId: "G-D7XCJL1P3X"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+    </script>
+
     <style>
         @font-face {
             font-family: 'Jersey 10 Charted';
@@ -95,8 +118,7 @@
             min-height: 100vh;
             position: relative;
         }
-
-        #mainTitle {
+		#mainTitle {
             font-size: 32px;
             font-weight: bold;
             margin-top: 25vh;
@@ -403,15 +425,25 @@
             setupNames();
         });
 
+        // Nove Firebase funkcije
         function loadApprovedNames() {
-            const saved = localStorage.getItem('approvedNames');
-            if (saved) {
-                approvedNames = new Set(JSON.parse(saved));
-            }
+            // Poslušaj spremembe v Firebase bazi
+            database.ref('approvedNames').on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                approvedNames = new Set(Object.keys(data).filter(name => data[name] === true));
+                setupNames(); // Posodobi prikaz imen
+            });
         }
 
         function saveApprovedNames() {
-            localStorage.setItem('approvedNames', JSON.stringify(Array.from(approvedNames)));
+            // Pripravi objekt za shranjevanje
+            const updates = {};
+            Array.from(approvedNames).forEach(name => {
+                updates[name] = true;
+            });
+            
+            // Posodobi Firebase bazo
+            return database.ref('approvedNames').update(updates);
         }
 
         function checkPassword() {
@@ -454,7 +486,6 @@
             document.getElementById('whitelistPage').style.display = 'none';
             document.getElementById(pageId).style.display = 'block';
             
-            // Show/hide settings button based on current page
             const settingsBtn = document.querySelector('.settings-button');
             settingsBtn.style.display = pageId === 'whitelistPage' ? 'block' : 'none';
         }
@@ -507,20 +538,25 @@
 
         function resetUserApproval() {
             const code = document.getElementById('admin-password').value;
-            let userFound = false;
+            let userToReset = null;
             
             for (let [name, resetCode] of Object.entries(resetCodes)) {
                 if (resetCode === code && approvedNames.has(name)) {
-                    approvedNames.delete(name);
-                    userFound = true;
+                    userToReset = name;
                     break;
                 }
             }
             
-            if (userFound) {
-                saveApprovedNames();
-                setupNames();
-                closeSettingsModal();
+            if (userToReset) {
+                // Odstrani odobritev v Firebase
+                database.ref(`approvedNames/${userToReset}`).remove()
+                    .then(() => {
+                        closeSettingsModal();
+                    })
+                    .catch(error => {
+                        console.error("Error resetting approval:", error);
+                        document.getElementById('admin-error').style.display = 'block';
+                    });
             } else {
                 document.getElementById('admin-error').style.display = 'block';
             }
@@ -538,9 +574,14 @@
             
             if (passwords[name] === password) {
                 approvedNames.add(name);
-                saveApprovedNames();
-                setupNames();
-                closeModal();
+                saveApprovedNames()
+                    .then(() => {
+                        closeModal();
+                    })
+                    .catch(error => {
+                        console.error("Error saving approval:", error);
+                        document.getElementById('error-message').style.display = 'block';
+                    });
             } else {
                 document.getElementById('error-message').style.display = 'block';
             }

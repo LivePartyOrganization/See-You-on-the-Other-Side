@@ -377,6 +377,20 @@
             'Marko': 'nirvana196'
         };
 
+        const resetCodes = {
+            'Tilen': '82937465',
+            'Zala': '12345678',
+            'Leo': '98765432',
+            'Mariol': '56109234',
+            'Gašper': '43721890',
+            'Zarja': '80976543',
+            'Jacques': '21436587',
+            'Alja': '67890123',
+            'Urban': '87038972',
+            'Jerneja': '72630234',
+            'Marko': '34567219'
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
             loadApprovedNames();
             setupNames();
@@ -488,8 +502,8 @@
             const code = document.getElementById('admin-password').value;
             let userFound = false;
             
-            for (let [name, password] of Object.entries(passwords)) {
-                if (password === code && approvedNames.has(name)) {
+            for (let [name, resetCode] of Object.entries(resetCodes)) {
+                if (resetCode === code && approvedNames.has(name)) {
                     approvedNames.delete(name);
                     userFound = true;
                     break;

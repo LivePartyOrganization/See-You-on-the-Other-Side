@@ -2,325 +2,84 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#1a1a1a">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>Private Party 2025</title>
-    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Anton&family=Playfair+Display&family=Ubuntu:wght@400;700&family=Delius&family=Roboto+Flex&display=swap" rel="stylesheet">
-    
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-
-    <!-- Firebase inicializacija -->
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyB9UdrVuXcKfUH3uVenBm12tZQogBbwOWU",
-            authDomain: "liveparty2025.firebaseapp.com",
-            databaseURL: "https://liveparty2025-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "liveparty2025",
-            storageBucket: "liveparty2025.firebasestorage.app",
-            messagingSenderId: "626643283932",
-            appId: "1:626643283932:web:c4eb08e1242ef039e16919",
-            measurementId: "G-D7XCJL1P3X"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-    </script>
-
+    <title>Password Page</title>
     <style>
-        @font-face {
-            font-family: 'Jersey 10 Charted';
-            src: url('path-to-your-font/Jersey10Charted.woff2') format('woff2');
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
         body {
-            background-color: #1a1a1a;
-            color: #e0e0e0;
+            background-color: #8A8A6A;
+            color: #fff;
             font-family: 'Special Elite', monospace;
             margin: 0;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden;
-            text-align: center;
-        }
-
-        #passwordPage {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            width: 100%;
-            padding: 20px;
         }
-
         .header {
-            font-size: 24px;
+            font-size: 26px;
             margin-bottom: 30px;
             text-align: center;
+            letter-spacing: 2px;
         }
-
         .login-container {
             display: flex;
             align-items: center;
             gap: 10px;
-            width: 100%;
             max-width: 400px;
-            justify-content: center;
             margin-bottom: 20px;
         }
-
         input {
             background-color: #e0e0e0;
             border: none;
             padding: 12px;
             font-size: 16px;
-            width: 100%;
-            max-width: 300px;
-            font-family: 'Special Elite', monospace;
+            width: 250px;
+            font-family: inherit;
             border-radius: 4px;
         }
-
         .enter-button {
             background-color: #e0e0e0;
             border: none;
             padding: 12px 24px;
             font-size: 18px;
-            font-family: 'Special Elite', monospace;
+            font-family: inherit;
             cursor: pointer;
             border-radius: 4px;
             min-height: 44px;
         }
-
         #errorMessage {
             display: none;
             color: #ff4444;
             margin-top: 10px;
             text-align: center;
         }
-
-        #mainContent {
+        #successPage {
             display: none;
-            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             min-height: 100vh;
-            position: relative;
+            width: 100vw;
         }
-		#mainTitle {
-            font-size: 32px;
-            font-weight: bold;
-            margin-top: 25vh;
-            text-align: center;
-            font-family: 'Jersey 10 Charted', sans-serif;
-            padding: 0 20px;
-            color: #e0e0e0;
+        #successPage h1 {
+            font-size: 44px;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            color: #fff;
         }
-
-        #timer {
-            font-size: 72px;
-            margin-top: 20vh;
-            text-align: center;
-            color: #880808;
-        }
-
-        .footer-text {
-            font-family: 'Roboto Flex', sans-serif;
-            font-size: 12px;
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-            color: #e0e0e0;
-        }
-		.nav-buttons {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            width: 100%;
-            padding: 10px;
-            z-index: 1000;
-            background-color: #1a1a1a;
-            border-bottom: 1px solid #333;
-        }
-
-        .button {
-            background-color: transparent;
-            border: none;
-            color: #e0e0e0;
-            padding: 12px 24px;
-            cursor: pointer;
-            font-family: 'Ubuntu', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            min-height: 44px;
-        }
-
-        .name-group {
-            margin: 20px 0;
-            text-align: center;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #whitelistPage {
-            padding-top: 120px;
-            position: relative;
-            margin-top: 60px;
-        }
-
-        .warning-text {
-            text-align: center;
-            margin: 40px auto;
-            max-width: 600px;
-            padding: 0 20px;
-            font-size: 18px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .secondary-text {
-            text-align: center;
-            margin: 20px auto;
-            max-width: 600px;
-            padding: 0 20px;
-            font-size: 16px;
-            color: #b0b0b0;
-        }
-
-        .name {
-            color: #f1c40f;
+        #successPage a {
+            font-size: 22px;
+            color: #222;
+            background: #e0e0e0;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
             font-family: 'Special Elite', monospace;
-            cursor: pointer;
-            padding: 12px 24px;
-            font-size: 18px;
-            margin: 8px 0;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            width: 200px;
-            text-align: center;
-        }
-
-        .name:hover {
-            color: #880808;
-            background-color: rgba(255,255,255,0.05);
-        }
-
-        .approved {
-            color: #008000 !important;
             font-weight: bold;
+            transition: background .2s;
         }
-
-        .approved::after {
-            content: " (approved)";
-            color: #FF7F50;
-            font-size: 14px;
-        }
-
-        #modal, #settingsModal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #1a1a1a;
-            padding: 30px;
-            border-radius: 10px;
-            border: 2px solid #e0e0e0;
-            z-index: 1002;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        .modal-title {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 18px;
-            color: #ffff00;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .modal-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .modal-enter-button {
-            background-color: #e0e0e0;
-            border: none;
-            padding: 12px 24px;
-            font-size: 18px;
-            font-family: 'Special Elite', monospace;
-            cursor: pointer;
-            border-radius: 4px;
-            width: 100%;
-            max-width: 200px;
-        }
-
-        #error-message {
-            display: none;
-            color: #ff4444;
-            margin-top: 15px;
-            text-align: center;
-        }
-
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            color: #e0e0e0;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 5px 10px;
-        }
-
-        .settings-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            color: #880808;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 1001;
-            padding: 10px;
-            display: none;
-        }
-
-        .settings-button:hover {
-            color: #ff0000;
-            transform: rotate(180deg);
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        #successPage a:hover {
+            background: #bfbf98;
         }
     </style>
 </head>
@@ -333,265 +92,25 @@
         </div>
         <div id="errorMessage">incorrect password try again</div>
     </div>
-
-    <button class="settings-button" onclick="showSettingsModal()">⚙️</button>
-
-    <div id="mainContent">
-        <div class="nav-buttons">
-            <button class="button" onclick="showPage('homePage')">Home</button>
-            <button class="button" onclick="showPage('whitelistPage')">Whitelist</button>
-        </div>
-
-        <div id="homePage">
-            <div id="mainTitle">Live from Utopia!</div>
-            <div id="timer"></div>
-            <div class="footer-text">the twenty-five midnight Live Private Party</div>
-        </div>
-		<div id="whitelistPage">
-            <div class="warning-text">This party is by invitation only, and only those approved on the whitelist are allowed to attend!</div>
-            <div class="secondary-text">Please click on your name, then enter your personal passcode to secure your place in 2025.</div>
-            <div id="names-container"></div>
-        </div>
+    <div id="successPage">
+        <h1>CLICK ME</h1>
+        <a href="https://youtu.be/h6qlaPkHm9g" target="_blank">https://youtu.be/h6qlaPkHm9g</a>
     </div>
-
-    <div id="modal">
-        <button class="close-button" onclick="closeModal()">×</button>
-        <div class="modal-title">Please enter your personal code</div>
-        <div class="modal-container">
-            <input type="password" id="personal-password" onkeyup="checkPersonalPassword(event)">
-            <button class="modal-enter-button" onclick="submitPersonalPassword()">Enter</button>
-        </div>
-        <div id="error-message">error: incorrect code (make sure you clicked on your name, not someone else's!)</div>
-        <input type="hidden" id="selected-name">
-    </div>
-
-    <div id="settingsModal">
-        <button class="close-button" onclick="closeSettingsModal()">×</button>
-        <div class="modal-title">
-            <span>👨‍💻</span>
-            <span>Administrator only!</span>
-        </div>
-        <div class="modal-container">
-            <input type="password" id="admin-password" placeholder="Enter person's code" onkeyup="checkAdminReset(event)">
-            <button class="modal-enter-button" onclick="resetUserApproval()">Enter</button>
-        </div>
-        <div id="admin-error" style="display:none; color: #ff4444; margin-top: 15px; text-align: center;">
-            Invalid code
-        </div>
-    </div>
-
     <script>
-        let approvedNames = new Set();
-
-        const nameGroups = [
-            ['Tilen', 'Zala'],
-            ['Leo', 'Mariol'],
-            ['Gašper', 'Zarja'],
-            ['Jacques', 'Alja'],
-            ['Urban', 'Jerneja'],
-            ['Marko']
-        ];
-
-        const passwords = {
-            'Tilen': 'paradise729',
-            'Zala': 'harmony438',
-            'Leo': 'serenity152',
-            'Mariol': 'euphoria684',
-            'Gašper': 'bliss921',
-            'Zarja': 'unity307',
-            'Jacques': 'dreamscape562',
-            'Alja': 'eden843',
-            'Urban': 'zion721',
-            'Jerneja': 'arcadia323',
-            'Marko': 'nirvana196'
-        };
-
-        const resetCodes = {
-            'Tilen': '82937465',
-            'Zala': '12345678',
-            'Leo': '98765432',
-            'Mariol': '56109234',
-            'Gašper': '43721890',
-            'Zarja': '80976543',
-            'Jacques': '21436587',
-            'Alja': '67890123',
-            'Urban': '87038972',
-            'Jerneja': '72630234',
-            'Marko': '34567219'
-        };
-
-        document.addEventListener('DOMContentLoaded', function() {
-            loadApprovedNames();
-            setupNames();
-        });
-
-        // Nove Firebase funkcije
-        function loadApprovedNames() {
-            // Poslušaj spremembe v Firebase bazi
-            database.ref('approvedNames').on('value', (snapshot) => {
-                const data = snapshot.val() || {};
-                approvedNames = new Set(Object.keys(data).filter(name => data[name] === true));
-                setupNames(); // Posodobi prikaz imen
-            });
-        }
-
-        function saveApprovedNames() {
-            // Pripravi objekt za shranjevanje
-            const updates = {};
-            Array.from(approvedNames).forEach(name => {
-                updates[name] = true;
-            });
-            
-            // Posodobi Firebase bazo
-            return database.ref('approvedNames').update(updates);
-        }
-
         function checkPassword() {
             const password = document.getElementById('passwordInput').value;
-            if (password === 'liveparty') {
+            if (password === 'sum25') {
                 document.getElementById('passwordPage').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-                showPage('homePage');
-                setupTimer();
-                setupNames();
+                document.getElementById('successPage').style.display = 'flex';
             } else {
                 document.getElementById('errorMessage').style.display = 'block';
             }
         }
-
         document.getElementById('passwordInput').addEventListener('keyup', function(event) {
             if (event.key === 'Enter') {
                 checkPassword();
             }
         });
-
-        function setupTimer() {
-            const targetDate = new Date('2025-01-01T00:00:00').getTime();
-            
-            setInterval(() => {
-                const now = new Date().getTime();
-                const distance = targetDate - now;
-                
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
-                document.getElementById('timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-            }, 1000);
-        }
-
-        function showPage(pageId) {
-            document.getElementById('homePage').style.display = 'none';
-            document.getElementById('whitelistPage').style.display = 'none';
-            document.getElementById(pageId).style.display = 'block';
-            
-            const settingsBtn = document.querySelector('.settings-button');
-            settingsBtn.style.display = pageId === 'whitelistPage' ? 'block' : 'none';
-        }
-
-        function setupNames() {
-            const container = document.getElementById('names-container');
-            container.innerHTML = '';
-            
-            nameGroups.forEach(group => {
-                const groupDiv = document.createElement('div');
-                groupDiv.className = 'name-group';
-                
-                group.forEach(name => {
-                    const nameDiv = document.createElement('div');
-                    nameDiv.className = 'name';
-                    if (approvedNames.has(name)) {
-                        nameDiv.classList.add('approved');
-                    }
-                    nameDiv.textContent = name;
-                    nameDiv.onclick = () => showModal(name);
-                    groupDiv.appendChild(nameDiv);
-                });
-                
-                container.appendChild(groupDiv);
-            });
-        }
-
-        function showModal(name) {
-            const modal = document.getElementById('modal');
-            document.getElementById('selected-name').value = name;
-            document.getElementById('personal-password').value = '';
-            document.getElementById('error-message').style.display = 'none';
-            modal.style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-            document.getElementById('selected-name').value = '';
-        }
-
-        function showSettingsModal() {
-            document.getElementById('settingsModal').style.display = 'block';
-            document.getElementById('admin-password').value = '';
-            document.getElementById('admin-error').style.display = 'none';
-        }
-
-        function closeSettingsModal() {
-            document.getElementById('settingsModal').style.display = 'none';
-        }
-
-        function resetUserApproval() {
-            const code = document.getElementById('admin-password').value;
-            let userToReset = null;
-            
-            for (let [name, resetCode] of Object.entries(resetCodes)) {
-                if (resetCode === code && approvedNames.has(name)) {
-                    userToReset = name;
-                    break;
-                }
-            }
-            
-            if (userToReset) {
-                // Odstrani odobritev v Firebase
-                database.ref(`approvedNames/${userToReset}`).remove()
-                    .then(() => {
-                        closeSettingsModal();
-                    })
-                    .catch(error => {
-                        console.error("Error resetting approval:", error);
-                        document.getElementById('admin-error').style.display = 'block';
-                    });
-            } else {
-                document.getElementById('admin-error').style.display = 'block';
-            }
-        }
-
-        function checkAdminReset(event) {
-            if (event.key === 'Enter') {
-                resetUserApproval();
-            }
-        }
-
-        function submitPersonalPassword() {
-            const password = document.getElementById('personal-password').value;
-            const name = document.getElementById('selected-name').value;
-            
-            if (passwords[name] === password) {
-                approvedNames.add(name);
-                saveApprovedNames()
-                    .then(() => {
-                        closeModal();
-                    })
-                    .catch(error => {
-                        console.error("Error saving approval:", error);
-                        document.getElementById('error-message').style.display = 'block';
-                    });
-            } else {
-                document.getElementById('error-message').style.display = 'block';
-            }
-        }
-
-        function checkPersonalPassword(event) {
-            if (event.key === 'Enter') {
-                submitPersonalPassword();
-            }
-        }
     </script>
 </body>
 </html>

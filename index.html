@@ -1,15 +1,31 @@
-<!DOCTYPE html>
+Seveda — tukaj imaš celo popravljeno kodo.
 
+Geslo je zdaj: LPO26
+Slika je večja.
+HOME je manjši, transparenten, typewriter font.
+
+```html
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Password Page</title>
+    <title>LiveParty Organization</title>
+
     <style>
+        @font-face {
+            font-family: 'Special Elite';
+            src: url('fonts/SpecialElite-Regular.ttf') format('truetype');
+        }
+
         body {
             background-color: #8A8A6A;
             color: #fff;
             font-family: 'Special Elite', monospace;
             margin: 0;
+            min-height: 100vh;
+        }
+
+        #passwordPage {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -17,124 +33,120 @@
             justify-content: center;
         }
 
-```
-    .header {
-        font-size: 26px;
-        margin-bottom: 30px;
-        text-align: center;
-        letter-spacing: 2px;
-    }
+        .header {
+            font-size: 26px;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
 
-    .login-container {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        max-width: 400px;
-        margin-bottom: 20px;
-    }
+        .login-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
 
-    input {
-        background-color: #e0e0e0;
-        border: none;
-        padding: 12px;
-        font-size: 16px;
-        width: 250px;
-        font-family: inherit;
-        border-radius: 4px;
-    }
+        input {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            width: 250px;
+            font-family: inherit;
+            border-radius: 4px;
+        }
 
-    .enter-button {
-        background-color: #e0e0e0;
-        border: none;
-        padding: 12px 24px;
-        font-size: 18px;
-        font-family: inherit;
-        cursor: pointer;
-        border-radius: 4px;
-        min-height: 44px;
-    }
+        .enter-button {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 4px;
+            min-height: 44px;
+        }
 
-    #errorMessage {
-        display: none;
-        color: #ff4444;
-        margin-top: 10px;
-        text-align: center;
-    }
+        #errorMessage {
+            display: none;
+            color: #ff4444;
+            margin-top: 10px;
+            text-align: center;
+        }
 
-    #successPage {
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        width: 100vw;
-    }
+        #successPage {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100vw;
+        }
 
-    .center-image {
-        max-width: 300px;
-        margin-bottom: 30px;
-    }
+        .center-image {
+            width: 430px;
+            max-width: 80vw;
+            margin-bottom: 35px;
+        }
 
-    .home-button {
-        font-size: 22px;
-        color: #222;
-        background: #e0e0e0;
-        padding: 14px 30px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-family: 'Special Elite', monospace;
-        font-weight: bold;
-        transition: background .2s;
-    }
+        .home-button {
+            font-size: 18px;
+            color: #111;
+            background: transparent;
+            padding: 6px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-family: 'Special Elite', monospace;
+            letter-spacing: 1px;
+            border: 1px solid transparent;
+        }
 
-    .home-button:hover {
-        background: #bfbf98;
-    }
-</style>
-```
-
+        .home-button:hover {
+            color: #000;
+            border: 1px solid #111;
+        }
+    </style>
 </head>
 
 <body>
 
-```
-<!-- LOGIN PAGE -->
-<div id="passwordPage">
-    <div class="header">ENTER WEBSITE PASSWORD:</div>
+    <div id="passwordPage">
+        <div class="header">ENTER WEBSITE PASSWORD:</div>
 
-    <div class="login-container">
-        <input type="password" id="passwordInput">
-        <button class="enter-button" onclick="checkPassword()">Enter</button>
+        <div class="login-container">
+            <input type="password" id="passwordInput">
+            <button class="enter-button" onclick="checkPassword()">Enter</button>
+        </div>
+
+        <div id="errorMessage">incorrect password try again</div>
     </div>
 
-    <div id="errorMessage">incorrect password try again</div>
-</div>
+    <div id="successPage">
+        <img src="livepartylogo.png" class="center-image">
+        <a href="home.html" class="home-button">HOME</a>
+    </div>
 
-<!-- SUCCESS PAGE -->
-<div id="successPage">
-    <img src="livepartylogo.png" class="center-image">
-    <a href="home.html" class="home-button">HOME</a>
-</div>
+    <script>
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
 
-<script>
-    function checkPassword() {
-        const password = document.getElementById('passwordInput').value;
-
-        if (password === 'sum25') {
-            document.getElementById('passwordPage').style.display = 'none';
-            document.getElementById('successPage').style.display = 'flex';
-        } else {
-            document.getElementById('errorMessage').style.display = 'block';
+            if (password === 'LPO26') {
+                document.getElementById('passwordPage').style.display = 'none';
+                document.getElementById('successPage').style.display = 'flex';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
         }
-    }
 
-    document.getElementById('passwordInput').addEventListener('keyup', function(event) {
-        if (event.key === 'Enter') {
-            checkPassword();
-        }
-    });
-</script>
-```
+        document.getElementById('passwordInput').addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    </script>
 
 </body>
 </html>
+```
